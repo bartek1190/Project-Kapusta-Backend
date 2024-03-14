@@ -53,54 +53,18 @@ const userSchema = new Schema(
     monthStats: {
       type: Object,
       default: {
-        january: {
-          type: Number,
-          default: 0,
-        },
-        february: {
-          type: Number,
-          default: 0,
-        },
-        march: {
-          type: Number,
-          default: 0,
-        },
-        april: {
-          type: Number,
-          default: 0,
-        },
-        may: {
-          type: Number,
-          default: 0,
-        },
-        june: {
-          type: Number,
-          default: 0,
-        },
-        july: {
-          type: Number,
-          default: 0,
-        },
-        august: {
-          type: Number,
-          default: 0,
-        },
-        september: {
-          type: Number,
-          default: 0,
-        },
-        october: {
-          type: Number,
-          default: 0,
-        },
-        november: {
-          type: Number,
-          default: 0,
-        },
-        december: {
-          type: Number,
-          default: 0,
-        },
+        january: 0,
+        february: 0,
+        march: 0,
+        april: 0,
+        may: 0,
+        june: 0,
+        july: 0,
+        august: 0,
+        september: 0,
+        october: 0,
+        november: 0,
+        december: 0,
       },
     },
   },

@@ -16,7 +16,7 @@ const userSchema = new Schema(
     },
     JWT: {
       type: String,
-      required: [true, "Verify token is required"],
+      default: null,
     },
     balance: {
       type: Number,
@@ -44,71 +44,11 @@ const userSchema = new Schema(
     },
     expenses: {
       type: Array,
-      default: [
-        {
-          date: {
-            type: String,
-            default: null,
-          },
-          description: {
-            type: String,
-            default: null,
-          },
-          amount: {
-            type: Number,
-            default: null,
-          },
-          category: {
-            type: String,
-            enum: [
-              "Transport",
-              "Products",
-              "Health",
-              "Alcohol",
-              "Entertainment",
-              "Housing",
-              "Technique",
-              "Communal, communication",
-              "Sports, hobbies",
-              "Education",
-              "Other",
-            ],
-            default: null,
-          },
-          id: {
-            type: String,
-            default: null,
-          },
-        },
-      ],
+      default: [],
     },
     incomes: {
       type: Array,
-      default: [
-        {
-          date: {
-            type: String,
-            default: null,
-          },
-          description: {
-            type: String,
-            default: null,
-          },
-          amount: {
-            type: Number,
-            default: null,
-          },
-          category: {
-            type: String,
-            enum: ["Salary", "Add. income"],
-            default: null,
-          },
-          id: {
-            type: String,
-            default: null,
-          },
-        },
-      ],
+      default: [],
     },
     monthStats: {
       type: Object,

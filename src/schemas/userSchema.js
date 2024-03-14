@@ -38,7 +38,7 @@ const userSchema = new Schema(
         "Other",
       ],
     },
-    expenseCategories: {
+    incomeCategories: {
       type: Array,
       default: ["Salary", "Add. income"],
     },

@@ -1,11 +1,21 @@
-import Joi from "joi";
+const Joi = require("joi");
 
-const validator = (schema) => (payload) =>
-  schema.validate(payload, { abortEarly: false });
-
-const userSchema = Joi.object({
+const registerSchema = Joi.object({
+  email: Joi.string().email().required(),
   password: Joi.string().min(6).required(),
-  email: Joi.string().email().min(8).required(),
 });
 
-export default validateUser = validator(userSchema);
+const loginSchema = Joi.object({
+  email: Joi.string().email().required(),
+  password: Joi.string().required(),
+});
+
+const validateRegister = (userData) => {
+  return registerSchema.validate(userData, { abortEarly: false });
+};
+
+const validateLogin = (userData) => {
+  return loginSchema.validate(userData, { abortEarly: false });
+};
+
+module.exports = { validateRegister, validateLogin };

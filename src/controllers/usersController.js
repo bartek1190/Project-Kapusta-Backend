@@ -1,22 +1,24 @@
-const User = require("../schemas/userSchema");
+const userService = require("../services/userService");
 
-const register = async (body) => {
+const getUser = async (req, res, next) => {
   try {
-    if (body.email) body.email = body.email.toLowerCase();
-    const user = await User.findOne({ email: body.email });
-    if (user) {
-      return 409;
-    }
-    const newUser = new User({
-      email: body.email,
-    });
-    newUser.setPassword(body.password);
-    await newUser.save();
-    return newUser;
-  } catch (err) {
-    console.log(err.message);
-    return err;
+    const user = await userService.getUser(req.params.userId);
+    res.json(user);
+  } catch (error) {
+    next(error);
   }
 };
 
-module.exports = { register };
+const updateUser = async (req, res, next) => {
+  try {
+    const updatedUser = await userService.updateUser(
+      req.params.userId,
+      req.body
+    );
+    res.json(updatedUser);
+  } catch (error) {
+    next(error);
+  }
+};
+
+module.exports = { getUser, updateUser };

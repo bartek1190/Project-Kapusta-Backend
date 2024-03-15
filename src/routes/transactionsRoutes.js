@@ -4,11 +4,11 @@ const authMiddleware = require("../middlewares/authMiddleware");
 
 const router = express.Router();
 
-router.post("/", authMiddleware, transactionsController.addTransaction); // Użyj middleware tutaj
+router.post("/", authMiddleware, transactionsController.addTransaction);
 router.get(
   "/user/:userId",
   authMiddleware,
   transactionsController.getTransactionsByUser
-); // I tutaj
+);
 
 module.exports = router;

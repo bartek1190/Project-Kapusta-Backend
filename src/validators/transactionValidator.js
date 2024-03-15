@@ -5,7 +5,7 @@ const transactionSchema = Joi.object({
   type: Joi.string().valid("income", "expense").required(),
   category: Joi.string().required(),
   amount: Joi.number().required(),
-  user: Joi.string().required(), // Assuming user is passed as an ID
+  user: Joi.string().required(),
 });
 
 const validateTransaction = (transactionData) => {

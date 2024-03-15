@@ -2,20 +2,17 @@ const Transaction = require("../models/transactionModel");
 const Category = require("../models/categoryModel");
 
 const addTransaction = async (transactionData, userId) => {
-  // Weryfikacja czy podana kategoria istnieje w bazie danych
   const categoryExists = await Category.findOne({
-    "items.id": transactionData.category,
-    name: transactionData.type === "income" ? "income" : "expenses", // Zakładając, że 'type' to 'income' lub 'expense'
+    name: transactionData.type,
+    items: transactionData.category,
   });
-
   if (!categoryExists) {
     throw new Error("Invalid category");
   }
 
-  // Utworzenie i zapisanie nowej transakcji
   const transaction = new Transaction({
     ...transactionData,
-    user: userId, // Dodanie identyfikatora użytkownika do transakcji
+    user: userId,
   });
 
   await transaction.save();

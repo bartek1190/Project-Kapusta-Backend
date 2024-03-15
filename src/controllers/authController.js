@@ -18,4 +18,24 @@ const login = async (req, res, next) => {
   }
 };
 
-module.exports = { register, login };
+const logout = async (req, res, next) => {
+  try {
+    const result = await authService.logout(req.user.id);
+    if (result) {
+      return res.status(400).json({
+        status: "failure",
+        code: 400,
+        message: "Token missing",
+      });
+    }
+    res.status(200).json({
+      status: "success",
+      code: 204,
+    });
+  } catch (err) {
+    console.log(err.message);
+    next(err);
+  }
+};
+
+module.exports = { register, login, logout };

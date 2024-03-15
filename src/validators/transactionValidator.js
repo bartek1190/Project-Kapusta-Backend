@@ -1,12 +1,15 @@
-import Joi from "joi";
-
-const validator = (schema) => (payload) =>
-  schema.validate(payload, { abortEarly: false });
+const Joi = require("joi");
 
 const transactionSchema = Joi.object({
-  description: Joi.string().min(2).required(),
-  amount: Joi.number().min(1).required(),
-  date: Joi.string().required(),
+  date: Joi.date().required(),
+  type: Joi.string().valid("income", "expense").required(),
+  category: Joi.string().required(),
+  amount: Joi.number().required(),
+  user: Joi.string().required(), // Assuming user is passed as an ID
 });
 
-export default validateTransaction = validator(transactionSchema);
+const validateTransaction = (transactionData) => {
+  return transactionSchema.validate(transactionData, { abortEarly: false });
+};
+
+module.exports = { validateTransaction };

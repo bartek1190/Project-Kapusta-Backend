@@ -8,7 +8,7 @@ const usersRouter = require("./src/routes/user");
 
 const formatsLogger = app.get("env") === "development" ? "dev" : "short";
 
-app.use(express.urlencoded());
+app.use(express.urlencoded({ extended: true }));
 app.use(logger(formatsLogger));
 app.use(cors());
 app.use(express.json());

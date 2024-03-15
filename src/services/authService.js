@@ -1,6 +1,7 @@
 const User = require("../models/userModel");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const { ObjectId } = require("mongodb");
 
 const register = async (userData) => {
   const { email, password } = userData;
@@ -8,14 +9,15 @@ const register = async (userData) => {
   if (existingUser) {
     throw new Error("User already exists");
   }
-  const hashedPassword = bcrypt.hashSync(password, 10);
-  const user = new User({ email, password: hashedPassword });
-  await user.save();
-
+  const user = new User({ email });
+  user.setPassword(password);
   const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
     expiresIn: "1h",
   });
-  return { user, token };
+  user.token = token;
+  await user.save();
+
+  return { user };
 };
 
 const login = async (userData) => {
@@ -31,4 +33,17 @@ const login = async (userData) => {
   return { token };
 };
 
-module.exports = { register, login };
+const logout = async (userId) => {
+  try {
+    const user = await User.find({ _id: userId });
+    if (!user.token) {
+      return user;
+    }
+    const id = new ObjectId(userId);
+    await User.updateOne({ _id: id }, { $set: { token: null } });
+  } catch (err) {
+    console.log(err.message);
+  }
+};
+
+module.exports = { register, login, logout };

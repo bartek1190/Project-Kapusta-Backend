@@ -35,11 +35,12 @@ const login = async (userData) => {
 
 const logout = async (userId) => {
   try {
-    const user = await User.find({ _id: userId });
-    if (!user.token) {
-      return user;
+    const user = await User.findOne({ _id: userId });
+    if (!user || !user.token) {
+      return 400;
     }
     const id = new ObjectId(userId);
+    console.log(id);
     await User.updateOne({ _id: id }, { $set: { token: null } });
   } catch (err) {
     console.log(err.message);

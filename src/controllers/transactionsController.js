@@ -12,11 +12,21 @@ const addTransaction = async (req, res, next) => {
   }
 };
 
-const getTransactionsByUser = async (req, res, next) => {
+const getIncomeTransactionsByUser = async (req, res, next) => {
   try {
-    const transactions = await transactionsService.getTransactionsByUser(
+    const transactions = await transactionsService.getIncomeTransactionsByUser(
       req.user.id
     );
+    res.json(transactions);
+  } catch (error) {
+    next(error);
+  }
+};
+
+const getExpensesTransactionsByUser = async (req, res, next) => {
+  try {
+    const transactions =
+      await transactionsService.getExpensesTransactionsByUser(req.user.id);
     res.json(transactions);
   } catch (error) {
     next(error);
@@ -34,4 +44,9 @@ const deleteTransaction = async (req, res, next) => {
   }
 };
 
-module.exports = { addTransaction, getTransactionsByUser, deleteTransaction };
+module.exports = {
+  addTransaction,
+  getIncomeTransactionsByUser,
+  getExpensesTransactionsByUser,
+  deleteTransaction,
+};

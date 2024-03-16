@@ -23,11 +23,18 @@ const addTransaction = async (transactionData, userId) => {
   return transaction;
 };
 
-const getTransactionsByUser = async (userId) => {
-  const transactions = await Transaction.find({ user: userId }).populate(
-    "category",
-    "name"
-  );
+const getIncomeTransactionsByUser = async (userId) => {
+  const transactions = await Transaction.find({
+    user: userId,
+    type: "income",
+  }).populate("category", "name");
+  return transactions;
+};
+const getExpensesTransactionsByUser = async (userId) => {
+  const transactions = await Transaction.find({
+    user: userId,
+    type: "expenses",
+  }).populate("category", "name");
   return transactions;
 };
 
@@ -52,4 +59,9 @@ const updateBalance = async (userId, amount, type) => {
   );
 };
 
-module.exports = { addTransaction, getTransactionsByUser, deleteTransaction };
+module.exports = {
+  addTransaction,
+  getIncomeTransactionsByUser,
+  getExpensesTransactionsByUser,
+  deleteTransaction,
+};

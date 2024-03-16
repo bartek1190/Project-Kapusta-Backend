@@ -3,15 +3,18 @@ const Transaction = require("../models/transactionModel");
 const getIncomeReport = async (userId) => {
   try {
     const incomeReport = await Transaction.aggregate([
-      { $match: { user: userId, type: "income" } },
       {
-        $group: {
-          _id: "$category", // Grupowanie według kategorii
-          totalAmount: { $sum: "$amount" }, // Sumowanie kwot
-          count: { $sum: 1 }, // Liczenie ilości transakcji
+        $match: {
+          user: userId,
+          type: "income",
         },
       },
-      { $sort: { totalAmount: -1 } }, // Sortowanie od największej sumy
+      {
+        $group: {
+          _id: { $dateToString: { format: "%Y-%m", date: "$date" } }, // Grupowanie po miesiącu
+          totalAmount: { $sum: "$amount" }, // Sumowanie wartości amount
+        },
+      },
     ]);
     return incomeReport;
   } catch (error) {

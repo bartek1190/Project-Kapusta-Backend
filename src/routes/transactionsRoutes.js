@@ -6,9 +6,14 @@ const router = express.Router();
 
 router.post("/", authMiddleware, transactionsController.addTransaction);
 router.get(
-  "/user/:userId",
+  "/income",
   authMiddleware,
-  transactionsController.getTransactionsByUser
+  transactionsController.getIncomeTransactionsByUser
+);
+router.get(
+  "/expenses",
+  authMiddleware,
+  transactionsController.getExpensesTransactionsByUser
 );
 router.delete("/", authMiddleware, transactionsController.deleteTransaction);
 

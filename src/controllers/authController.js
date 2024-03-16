@@ -25,7 +25,7 @@ const logout = async (req, res, next) => {
       return res.status(400).json({
         status: "failure",
         code: 400,
-        message: "Token missing",
+        message: "Wrong or missing token",
       });
     }
     res.status(200).json({

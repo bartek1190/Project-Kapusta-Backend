@@ -31,6 +31,12 @@ const getTransactionsByUser = async (userId) => {
   return transactions;
 };
 
+const deleteTransaction = async (transactionId, userId) => {
+  const transaction = await Transaction.findOne({ _id: transactionId });
+  await Transaction.findOneAndDelete({ _id: transactionId });
+  await updateBalance(userId, parseInt(-transaction.amount), transaction.type);
+};
+
 const updateBalance = async (userId, amount, type) => {
   const user = await User.findOne({ _id: userId });
   const previousUserBalance = user.balance;
@@ -46,4 +52,4 @@ const updateBalance = async (userId, amount, type) => {
   );
 };
 
-module.exports = { addTransaction, getTransactionsByUser };
+module.exports = { addTransaction, getTransactionsByUser, deleteTransaction };

@@ -1,5 +1,6 @@
 const Transaction = require("../models/transactionModel");
 const Category = require("../models/categoryModel");
+const User = require("../models/userModel");
 
 const addTransaction = async (transactionData, userId) => {
   const categoryExists = await Category.findOne({
@@ -17,7 +18,7 @@ const addTransaction = async (transactionData, userId) => {
 
   await transaction.save();
 
-  // Aktualizacja salda użytkownika po dodaniu transakcji może być obsłużona tutaj lub w osobnej funkcji
+  await updateBalance(userId, transactionData.amount, transactionData.type);
 
   return transaction;
 };
@@ -30,10 +31,19 @@ const getTransactionsByUser = async (userId) => {
   return transactions;
 };
 
-// Przykładowa implementacja aktualizacji salda użytkownika (opcjonalnie)
 const updateBalance = async (userId, amount, type) => {
-  // Logika aktualizacji salda użytkownika
-  // Ta część wymaga dodatkowej implementacji
+  const user = await User.findOne({ _id: userId });
+  const previousUserBalance = user.balance;
+  let currentUserBalance;
+  if (type === "income") {
+    currentUserBalance = parseInt(previousUserBalance) + parseInt(amount);
+  } else {
+    currentUserBalance = parseInt(previousUserBalance) - parseInt(amount);
+  }
+  await User.findOneAndUpdate(
+    { _id: userId },
+    { $set: { balance: currentUserBalance } }
+  );
 };
 
 module.exports = { addTransaction, getTransactionsByUser };

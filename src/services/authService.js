@@ -26,10 +26,14 @@ const login = async (userData) => {
   if (!user || !bcrypt.compareSync(password, user.password)) {
     throw new Error("Invalid credentials");
   }
-
+  if (user.token) {
+    return 400;
+  }
   const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
     expiresIn: "1h",
   });
+
+  await User.findOneAndUpdate({ _id: user._id }, { $set: { token } });
   return { token };
 };
 

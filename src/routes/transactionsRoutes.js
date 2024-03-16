@@ -10,5 +10,6 @@ router.get(
   authMiddleware,
   transactionsController.getTransactionsByUser
 );
+router.delete("/", authMiddleware, transactionsController.deleteTransaction);
 
 module.exports = router;

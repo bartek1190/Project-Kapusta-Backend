@@ -23,4 +23,15 @@ const getTransactionsByUser = async (req, res, next) => {
   }
 };
 
-module.exports = { addTransaction, getTransactionsByUser };
+const deleteTransaction = async (req, res, next) => {
+  try {
+    await transactionsService.deleteTransaction(req.body.id, req.user.id);
+    return res
+      .status(200)
+      .json({ message: "Transaction deleted successfully" });
+  } catch (error) {
+    next(error);
+  }
+};
+
+module.exports = { addTransaction, getTransactionsByUser, deleteTransaction };

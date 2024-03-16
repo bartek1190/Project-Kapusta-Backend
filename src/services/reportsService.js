@@ -2,46 +2,53 @@ const Transaction = require("../models/transactionModel");
 
 const getIncomeReport = async (userId) => {
   try {
-    const incomeReport = await Transaction.aggregate([
-      {
-        $match: {
-          user: userId,
-          type: "income",
-        },
-      },
-      {
-        $group: {
-          _id: { $dateToString: { format: "%Y-%m", date: "$date" } }, // Grupowanie po miesiącu
-          totalAmount: { $sum: "$amount" }, // Sumowanie wartości amount
-        },
-      },
-    ]);
-    return incomeReport;
-  } catch (error) {
-    throw new Error(
-      "Błąd podczas agregacji raportu przychodów: " + error.message
-    );
+    const allTransactions = await Transaction.find({
+      user: userId,
+      type: "income",
+    });
+    const monthlySum = {};
+
+    allTransactions.forEach((item) => {
+      const date = new Date(item.date);
+      const year = date.getFullYear();
+      const month = date.getMonth() + 1;
+      const key = `${year}-${month}`;
+
+      if (monthlySum[key]) {
+        monthlySum[key] += item.amount;
+      } else {
+        monthlySum[key] = item.amount;
+      }
+    });
+    return monthlySum;
+  } catch (err) {
+    console.log(err.message);
   }
 };
 
 const getExpenseReport = async (userId) => {
   try {
-    const expenseReport = await Transaction.aggregate([
-      { $match: { user: userId, type: "expense" } },
-      {
-        $group: {
-          _id: "$category", // Grupowanie według kategorii
-          totalAmount: { $sum: "$amount" }, // Sumowanie kwot
-          count: { $sum: 1 }, // Liczenie ilości transakcji
-        },
-      },
-      { $sort: { totalAmount: -1 } }, // Sortowanie od największej sumy
-    ]);
-    return expenseReport;
-  } catch (error) {
-    throw new Error(
-      "Błąd podczas agregacji raportu wydatków: " + error.message
-    );
+    const allTransactions = await Transaction.find({
+      user: userId,
+      type: "expenses",
+    });
+    const monthlySum = {};
+
+    allTransactions.forEach((item) => {
+      const date = new Date(item.date);
+      const year = date.getFullYear();
+      const month = date.getMonth() + 1;
+      const key = `${year}-${month}`;
+
+      if (monthlySum[key]) {
+        monthlySum[key] += item.amount;
+      } else {
+        monthlySum[key] = item.amount;
+      }
+    });
+    return monthlySum;
+  } catch (err) {
+    console.log(err.message);
   }
 };
 

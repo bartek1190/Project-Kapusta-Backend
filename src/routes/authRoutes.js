@@ -30,20 +30,105 @@ const authMiddleware = require("../middlewares/authMiddleware");
 
 /**
  * @swagger
- * /register:
+ * /api/auth/register:
  *   post:
- *     summary: Returns registered user and token JWT
- *     responses:
- *       200:
- *         description: Registered user
- *         content:
+ *     summary: Registers a new user and returns JWT
+ *     requestBody:
+ *       required: true
+ *       content:
  *         application/json:
  *           schema:
  *             type: object
- *             items:
- *               $ref: `#/components/schemas/User`
+ *             required:
+ *               - email
+ *               - password
+ *             properties:
+ *               email:
+ *                 type: string
+ *                 format: email
+ *                 description: The email of the user.
+ *               password:
+ *                 type: string
+ *                 format: password
+ *                 description: The password for the user.
+ *     responses:
+ *       201:
+ *         description: User registered successfully, JWT returned.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 token:
+ *                   type: string
+ *                   description: The JWT token for authentication.
+ *                 user:
+ *                   $ref: '#/components/schemas/User'
+ *       400:
+ *         description: Bad request, possibly due to missing fields or invalid input.
+ *       409:
+ *         description: Conflict, user already exists.
+ *
+ * @swagger
+ * /api/auth/login:
+ *   post:
+ *     summary: Authenticates a user and returns JWT
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - email
+ *               - password
+ *             properties:
+ *               email:
+ *                 type: string
+ *                 format: email
+ *                 description: The email of the user.
+ *               password:
+ *                 type: string
+ *                 format: password
+ *                 description: The password for the user.
+ *     responses:
+ *       200:
+ *         description: User authenticated successfully, JWT returned.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 token:
+ *                   type: string
+ *                   description: The JWT token for authentication.
+ *       400:
+ *         description: Bad request, possibly due to missing fields or invalid input.
+ *       401:
+ *         description: Unauthorized, incorrect email or password.
+ *
+ * @swagger
+ * /api/auth/logout:
+ *   get:
+ *     summary: Logs out a user
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: User logged out successfully.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   description: A message confirming that the user has been logged out.
+ *       401:
+ *         description: Unauthorized, no token provided or token is invalid.
+ *       500:
+ *         description: Internal server error
  */
-
 router.post("/register", authController.register);
 router.post("/login", authController.login);
 router.get("/logout", authMiddleware, authController.logout);

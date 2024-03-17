@@ -2,9 +2,13 @@ const express = require("express");
 const logger = require("morgan");
 const cors = require("cors");
 const helmet = require("helmet");
+const morgan = require("morgan");
+const swaggerUI = require("swagger-ui-express");
+const specs = require("./src/middlewares/swaggerMiddleware");
 
 const app = express();
 
+app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(specs));
 const authRoutes = require("./src/routes/authRoutes");
 const userRoutes = require("./src/routes/userRoutes");
 const transactionsRoutes = require("./src/routes/transactionsRoutes");
@@ -12,6 +16,7 @@ const reportsRoutes = require("./src/routes/reportsRoutes");
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(morgan("dev"));
 app.use(cors());
 app.use(helmet());
 

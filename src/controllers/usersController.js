@@ -1,4 +1,5 @@
 const userService = require("../services/userService");
+const { validateUpdateBalance } = require("../validators/userValidator");
 
 const getUser = async (req, res, next) => {
   try {
@@ -9,10 +10,11 @@ const getUser = async (req, res, next) => {
   }
 };
 
-const updateUser = async (req, res, next) => {
+const updateUserBalance = async (req, res, next) => {
   try {
-    const updatedUser = await userService.updateUser(
-      req.params.userId,
+    await validateUpdateBalance(req.body);
+    const updatedUser = await userService.updateUserBalance(
+      req.user.id,
       req.body
     );
     res.json(updatedUser);
@@ -21,4 +23,4 @@ const updateUser = async (req, res, next) => {
   }
 };
 
-module.exports = { getUser, updateUser };
+module.exports = { getUser, updateUserBalance };

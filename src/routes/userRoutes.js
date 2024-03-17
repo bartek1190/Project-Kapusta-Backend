@@ -4,6 +4,6 @@ const router = express.Router();
 const authMiddleware = require("../middlewares/authMiddleware");
 
 router.get("/:userId", usersController.getUser);
-router.patch("/:userId", authMiddleware, usersController.updateUser);
+router.patch("/", authMiddleware, usersController.updateUserBalance);
 
 module.exports = router;

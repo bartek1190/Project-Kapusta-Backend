@@ -3,7 +3,79 @@ const usersController = require("../controllers/usersController");
 const router = express.Router();
 const authMiddleware = require("../middlewares/authMiddleware");
 
+/**
+ * @swagger
+ * tags:
+ *   - name: User
+ *     description: User endpoints
+ */
+
+/**
+ * @swagger
+ * /api/users/{userId}:
+ *   get:
+ *     tags: [User]
+ *     summary: Retrieve a user's details
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: userId
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The user ID
+ *     responses:
+ *       200:
+ *         description: User details retrieved successfully
+ *       401:
+ *         description: Unauthorized, token missing or invalid
+ *       404:
+ *         description: User not found
+ *       500:
+ *         description: Internal server error
+ */
+
 router.get("/:userId", usersController.getUser);
+
+/**
+ * @swagger
+ * /api/users/{userId}/balance:
+ *   patch:
+ *     tags: [User]
+ *     summary: Update the user's balance
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: userId
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The user ID
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               balance:
+ *                 type: number
+ *                 description: New balance to update
+ *     responses:
+ *       200:
+ *         description: Balance updated successfully
+ *       400:
+ *         description: Bad request, validation errors
+ *       401:
+ *         description: Unauthorized, token missing or invalid
+ *       404:
+ *         description: User not found
+ *       500:
+ *         description: Internal server error
+ */
+
 router.patch("/", authMiddleware, usersController.updateUserBalance);
 
 module.exports = router;

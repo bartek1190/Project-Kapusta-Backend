@@ -5,6 +5,12 @@ const authMiddleware = require("../middlewares/authMiddleware");
 
 /**
  * @swagger
+ * tags:
+ *   name: Auth
+ *   description: Auth endpoints
+ */
+/**
+ * @swagger
  * components:
  *   schemas:
  *     User:
@@ -32,6 +38,7 @@ const authMiddleware = require("../middlewares/authMiddleware");
  * @swagger
  * /api/auth/register:
  *   post:
+ *     tags: [Auth]
  *     summary: Registers a new user and returns JWT
  *     requestBody:
  *       required: true
@@ -72,6 +79,7 @@ const authMiddleware = require("../middlewares/authMiddleware");
  * @swagger
  * /api/auth/login:
  *   post:
+ *     tags: [Auth]
  *     summary: Authenticates a user and returns JWT
  *     requestBody:
  *       required: true
@@ -110,6 +118,7 @@ const authMiddleware = require("../middlewares/authMiddleware");
  * @swagger
  * /api/auth/logout:
  *   get:
+ *     tags: [Auth]
  *     summary: Logs out a user
  *     security:
  *       - bearerAuth: []

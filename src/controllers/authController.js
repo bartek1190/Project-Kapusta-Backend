@@ -1,7 +1,12 @@
 const authService = require("../services/authService");
+const {
+  validateRegister,
+  validateLogin,
+} = require("../validators/userValidator");
 
 const register = async (req, res, next) => {
   try {
+    await validateRegister(req.body);
     const result = await authService.register(req.body);
     res.status(201).json(result);
   } catch (error) {
@@ -11,6 +16,7 @@ const register = async (req, res, next) => {
 
 const login = async (req, res, next) => {
   try {
+    await validateLogin(req.body);
     const result = await authService.login(req.body);
     if (result === 400) {
       return res.status(400).json({

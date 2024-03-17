@@ -1,7 +1,9 @@
 const transactionsService = require("../services/transactionService");
+const { validateTransaction } = require("../validators/transactionValidator");
 
 const addTransaction = async (req, res, next) => {
   try {
+    await validateTransaction(req.body);
     const transaction = await transactionsService.addTransaction(
       req.body,
       req.user.id

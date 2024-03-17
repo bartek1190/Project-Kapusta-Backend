@@ -34,7 +34,11 @@ const getTransactionsByUser = async (userId) => {
 const deleteTransaction = async (transactionId, userId) => {
   const transaction = await Transaction.findOne({ _id: transactionId });
   await Transaction.findOneAndDelete({ _id: transactionId });
-  await updateBalance(userId, parseInt(-transaction.amount), transaction.type);
+  await updateBalance(
+    userId,
+    parseFloat(-transaction.amount),
+    transaction.type
+  );
 };
 
 const updateBalance = async (userId, amount, type) => {
@@ -42,9 +46,9 @@ const updateBalance = async (userId, amount, type) => {
   const previousUserBalance = user.balance;
   let currentUserBalance;
   if (type === "income") {
-    currentUserBalance = parseInt(previousUserBalance) + parseInt(amount);
+    currentUserBalance = parseFloat(previousUserBalance) + parseFloat(amount);
   } else {
-    currentUserBalance = parseInt(previousUserBalance) - parseInt(amount);
+    currentUserBalance = parseFloat(previousUserBalance) - parseFloat(amount);
   }
   await User.findOneAndUpdate(
     { _id: userId },

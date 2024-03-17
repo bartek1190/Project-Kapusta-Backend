@@ -2,14 +2,16 @@ const Joi = require("joi");
 
 const transactionSchema = Joi.object({
   date: Joi.date().required(),
-  type: Joi.string().valid("income", "expense").required(),
+  type: Joi.string().valid("income", "expenses").required(),
   category: Joi.string().required(),
+  description: Joi.string().required(),
   amount: Joi.number().required(),
-  user: Joi.string().required(),
 });
 
 const validateTransaction = (transactionData) => {
-  return transactionSchema.validate(transactionData, { abortEarly: false });
+  return transactionSchema.validateAsync(transactionData, {
+    abortEarly: false,
+  });
 };
 
 module.exports = { validateTransaction };

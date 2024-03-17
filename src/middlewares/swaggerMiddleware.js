@@ -23,7 +23,7 @@ const options = {
       },
     },
   },
-  apis: ["./src/routes/*.js"], // Zmieniłem ścieżkę, aby odpowiadała strukturze projektu
+  apis: ["./src/routes/*.js"],
 };
 
 const specs = swaggerJsDoc(options);

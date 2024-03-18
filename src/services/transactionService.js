@@ -3,14 +3,12 @@ const Category = require("../models/categoryModel");
 const User = require("../models/userModel");
 
 const addTransaction = async (transactionData, userId) => {
-  const categoryExists = await Category.findOne({
-    name: transactionData.type,
-    items: transactionData.category,
-  });
-  if (!categoryExists) {
-    throw new Error("Invalid category");
+  // Sprawdzanie, czy przekazany typ transakcji odpowiada jednej z kategorii
+  if (!["income", "expenses"].includes(transactionData.type)) {
+    throw new Error("Invalid transaction type");
   }
 
+  // Utworzenie nowej transakcji, zakładając że pole 'type' odpowiada kategorii
   const transaction = new Transaction({
     ...transactionData,
     user: userId,
@@ -18,6 +16,7 @@ const addTransaction = async (transactionData, userId) => {
 
   await transaction.save();
 
+  // Opcjonalnie: aktualizacja bilansu użytkownika
   await updateBalance(userId, transactionData.amount, transactionData.type);
 
   return transaction;

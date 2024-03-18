@@ -2,22 +2,50 @@ const Transaction = require("../models/transactionModel");
 const Category = require("../models/categoryModel");
 const User = require("../models/userModel");
 
-const addTransaction = async (transactionData, userId) => {
-  // Sprawdzanie, czy przekazany typ transakcji odpowiada jednej z kategorii
-  if (!["income", "expenses"].includes(transactionData.type)) {
-    throw new Error("Invalid transaction type");
+const addIncomeTransaction = async (transactionData, userId) => {
+  if (!transactionData.category) {
+    throw new Error("Category is required for income transaction");
   }
 
-  // Utworzenie nowej transakcji, zakładając że pole 'type' odpowiada kategorii
+  // Check if the category exists in the database
+  const category = await Category.findOne({ name: "income" }).exec();
+  if (!category || !category.items.includes(transactionData.category)) {
+    throw new Error("Invalid income category");
+  }
+
   const transaction = new Transaction({
     ...transactionData,
+    type: "income",
     user: userId,
   });
 
   await transaction.save();
 
-  // Opcjonalnie: aktualizacja bilansu użytkownika
-  await updateBalance(userId, transactionData.amount, transactionData.type);
+  await updateBalance(userId, transactionData.amount, "income");
+
+  return transaction;
+};
+
+const addExpensesTransaction = async (transactionData, userId) => {
+  if (!transactionData.category) {
+    throw new Error("Category is required for expenses transaction");
+  }
+
+  // Check if the category exists in the database
+  const category = await Category.findOne({ name: "expenses" }).exec();
+  if (!category || !category.items.includes(transactionData.category)) {
+    throw new Error("Invalid expenses category");
+  }
+
+  const transaction = new Transaction({
+    ...transactionData,
+    type: "expenses",
+    user: userId,
+  });
+
+  await transaction.save();
+
+  await updateBalance(userId, transactionData.amount, "expenses");
 
   return transaction;
 };
@@ -63,7 +91,8 @@ const updateBalance = async (userId, amount, type) => {
 };
 
 module.exports = {
-  addTransaction,
+  addIncomeTransaction,
+  addExpensesTransaction,
   getIncomeTransactionsByUser,
   getExpensesTransactionsByUser,
   deleteTransaction,

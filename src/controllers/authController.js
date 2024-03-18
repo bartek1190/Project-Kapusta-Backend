@@ -44,6 +44,13 @@ const login = async (req, res, next) => {
 
     res.status(200).json({ status: "success", code: 200, user: result });
   } catch (error) {
+    if (error.message === "Invalid credentials") {
+      return res.status(400).json({
+        status: "failure",
+        code: 400,
+        message: error.message,
+      });
+    }
     if (error.isJoi) {
       return res.status(400).json({
         status: "failure",
@@ -69,9 +76,9 @@ const logout = async (req, res, next) => {
       });
     }
 
-    res.status(204).json({
+    return res.status(200).json({
       status: "success",
-      code: 204,
+      code: 200,
       message: "User logged out successfully.",
     });
   } catch (error) {

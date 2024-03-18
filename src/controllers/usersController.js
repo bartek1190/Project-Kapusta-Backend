@@ -4,7 +4,11 @@ const { validateUpdateBalance } = require("../validators/userValidator");
 const getUser = async (req, res, next) => {
   try {
     const user = await userService.getUser(req.params.userId);
-    res.json(user);
+    res.status(200).json({
+      status: "success",
+      code: 200,
+      user,
+    });
   } catch (error) {
     next(error);
   }
@@ -17,7 +21,11 @@ const updateUserBalance = async (req, res, next) => {
       req.user.id,
       req.body
     );
-    res.json(updatedUser);
+    res.status(200).json({
+      status: "success",
+      code: 200,
+      balance: updatedUser.balance,
+    });
   } catch (error) {
     next(error);
   }

@@ -18,8 +18,8 @@ const validateRegister = (userData) => {
   return registerSchema.validateAsync(userData, { abortEarly: false });
 };
 
-const validateLogin = (userData) => {
-  return loginSchema.validateAsync(userData, { abortEarly: false });
+const validateLogin = async (userData) => {
+  return await loginSchema.validateAsync(userData, { abortEarly: false });
 };
 
 const validateUpdateBalance = (userData) => {

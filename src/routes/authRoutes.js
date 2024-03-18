@@ -112,8 +112,6 @@ const authMiddleware = require("../middlewares/authMiddleware");
  *                   description: The JWT token for authentication.
  *       400:
  *         description: Bad request, possibly due to missing fields or invalid input.
- *       401:
- *         description: Unauthorized, incorrect email or password.
  *
  * @swagger
  * /api/auth/logout:
@@ -123,7 +121,7 @@ const authMiddleware = require("../middlewares/authMiddleware");
  *     security:
  *       - bearerAuth: []
  *     responses:
- *       200:
+ *       204:
  *         description: User logged out successfully.
  *         content:
  *           application/json:

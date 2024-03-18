@@ -42,9 +42,6 @@ const authMiddleware = require("../middlewares/authMiddleware");
  *             schema:
  *               type: object
  *               properties:
- *                 token:
- *                   type: string
- *                   description: The JWT token for authentication.
  *                 user:
  *                   $ref: '#/components/schemas/User'
  *       400:

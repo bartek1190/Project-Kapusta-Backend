@@ -1,10 +1,13 @@
 const transactionsService = require("../services/transactionService");
-const { validateTransaction } = require("../validators/transactionValidator");
+const {
+  validateIncomeTransaction,
+  validateExpensesTransaction,
+} = require("../validators/transactionValidator");
 const Transaction = require("../models/transactionModel");
 
 const addIncomeTransaction = async (req, res, next) => {
   try {
-    await validateTransaction(req.body);
+    await validateIncomeTransaction(req.body);
     const transaction = await transactionsService.addIncomeTransaction(
       req.body,
       req.user.id
@@ -32,7 +35,7 @@ const addIncomeTransaction = async (req, res, next) => {
 
 const addExpensesTransaction = async (req, res, next) => {
   try {
-    await validateTransaction(req.body);
+    await validateExpensesTransaction(req.body);
     const transaction = await transactionsService.addExpensesTransaction(
       req.body,
       req.user.id

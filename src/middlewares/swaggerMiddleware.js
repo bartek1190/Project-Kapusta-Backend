@@ -64,27 +64,13 @@ const options = {
             user: "65f4a4b12e22a2c00cd7d50b",
           },
         },
-        Categories: {
-          type: "object",
-          properties: {
-            _id: {
-              type: "string",
-              description: "The auto-generated id of the user",
-            },
-            items: {
-              type: "array of strings",
-              example: ["Salary", "Add. Income"],
-            },
-            name: {
-              type: "string",
-              example: "income",
-            },
-          },
-          example: {
-            _id: "65f874410a288365085a5608",
-            items: ["Salary", "Add. Income"],
-            name: "income",
-          },
+        IncomeCategories: {
+          type: "array",
+          example: ["Salary", "Add. Income"],
+        },
+        ExpensesCategories: {
+          type: "array",
+          example: ["Products", "Alcohol"],
         },
         User: {
           type: "object",

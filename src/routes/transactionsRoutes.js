@@ -13,10 +13,10 @@ const router = express.Router();
 
 /**
  * @swagger
- * /api/transactions:
+ * /api/transactions/income:
  *   post:
  *     tags: [Transaction]
- *     summary: Add a new transaction for the logged-in user
+ *     summary: Add a new income transaction for the logged-in user
  *     security:
  *       - bearerAuth: []
  *     requestBody:

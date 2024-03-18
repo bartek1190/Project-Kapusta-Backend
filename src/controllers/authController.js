@@ -59,15 +59,16 @@ const login = async (req, res, next) => {
 
 const logout = async (req, res, next) => {
   try {
-    const isLoggedOut = await authService.logout(req.user.id);
+    const result = await authService.logout(req.user.id);
 
-    if (!isLoggedOut) {
-      return res.status(401).json({
+    if (result === 400) {
+      return res.status(400).json({
         status: "failure",
-        code: 401,
-        message: "Unauthorized, no valid token provided.",
+        code: 400,
+        message: "Logout failed, user not found or no token provided.",
       });
     }
+
     res.status(204).json({
       status: "success",
       code: 204,

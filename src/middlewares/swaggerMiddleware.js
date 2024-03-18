@@ -20,9 +20,13 @@ const options = {
         },
       },
       schemas: {
-        Transaction: {
+        Transactions: {
           type: "object",
           properties: {
+            _id: {
+              type: "string",
+              description: "The auto-generated id of the user",
+            },
             date: {
               type: "string",
               format: "date",
@@ -44,14 +48,77 @@ const options = {
               type: "number",
               example: 5000,
             },
+            user: {
+              type: "string",
+              description: "Id of the user that transaction belongs to",
+            },
           },
           required: ["date", "type", "category", "description", "amount"],
           example: {
+            _id: "65f874410a288365085a5608",
             date: "2023-03-30",
             type: "income",
             category: "Salary",
             description: "Monthly salary",
             amount: 5000,
+            user: "65f4a4b12e22a2c00cd7d50b",
+          },
+        },
+        Categories: {
+          type: "object",
+          properties: {
+            _id: {
+              type: "string",
+              description: "The auto-generated id of the user",
+            },
+            items: {
+              type: "array of strings",
+              example: ["Salary", "Add. Income"],
+            },
+            name: {
+              type: "string",
+              example: "income",
+            },
+          },
+          example: {
+            _id: "65f874410a288365085a5608",
+            items: ["Salary", "Add. Income"],
+            name: "income",
+          },
+        },
+        User: {
+          type: "object",
+          properties: {
+            _id: {
+              type: "string",
+              description: "The auto-generated id of the user",
+            },
+            email: {
+              type: "string",
+              description: "User email",
+            },
+            password: {
+              type: "string",
+              minLength: 6,
+              description: "Hashed user password",
+            },
+            balance: {
+              type: "number",
+              description: "User balance",
+            },
+            token: {
+              type: "string",
+              description: "JWT token, generated for logged in user",
+            },
+          },
+          required: ["email", "password"],
+          example: {
+            _id: "65f4a4b12e22a2c00cd7d50b",
+            email: "test@gmail.com",
+            password: "test123",
+            balance: 0,
+            token:
+              "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1Zjg3NG0MTM4MTY0ODA1NjZlNWQxMCIsImlhdCI6MTcxMDc4MjYzMSwiZXhwIjxNzEwNzg2MjMxfQ.RTrK1ECvbKs6J8r75kMuWQ1br55LX0h0vc_6_VCGvo",
           },
         },
       },

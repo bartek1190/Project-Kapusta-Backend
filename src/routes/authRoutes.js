@@ -9,30 +9,6 @@ const authMiddleware = require("../middlewares/authMiddleware");
  *   name: Auth
  *   description: Auth endpoints
  */
-/**
- * @swagger
- * components:
- *   schemas:
- *     User:
- *        type: object
- *        required:
- *           - email
- *           - password
- *        properties:
- *           _id:
- *              type: string
- *              description: The auto-generated id of the user
- *           email:
- *              type: string
- *              description: User email
- *           password:
- *              type: string
- *              description: Hashed user password
- *        example:
- *           _id: 65f4a4b12e22a2c00cd7d50b
- *           email: test@gmail.com
- *           password: $2a$10$PbWfkYH/.KOBrQuvhmyj2e3S3U/8EFB1Y0c/L7XZfw6a5r6/vih2q
- */
 
 /**
  * @swagger

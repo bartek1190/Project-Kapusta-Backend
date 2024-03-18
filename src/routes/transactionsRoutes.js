@@ -36,8 +36,17 @@ const router = express.Router();
  *         description: Internal server error.
  */
 
-router.post("/", authMiddleware, transactionsController.addTransaction);
+router.post(
+  "/income",
+  authMiddleware,
+  transactionsController.addIncomeTransaction
+);
 
+router.post(
+  "/expenses",
+  authMiddleware,
+  transactionsController.addExpensesTransaction
+);
 /**
  * @swagger
  * /api/transactions/income:

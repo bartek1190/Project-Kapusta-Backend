@@ -11,6 +11,7 @@ const app = express();
 app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(specs));
 const authRoutes = require("./src/routes/authRoutes");
 const userRoutes = require("./src/routes/userRoutes");
+const categoriesRoutes = require("./src/routes/categoriesRoutes");
 const transactionsRoutes = require("./src/routes/transactionsRoutes");
 const reportsRoutes = require("./src/routes/reportsRoutes");
 
@@ -25,6 +26,7 @@ app.use(logger(formatsLogger));
 
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
+app.use("/api/categories", categoriesRoutes);
 app.use("/api/transactions", transactionsRoutes);
 app.use("/api/reports", reportsRoutes);
 

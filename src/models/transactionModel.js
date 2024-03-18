@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const Category = require("./categoryModel");
 
 const transactionSchema = new mongoose.Schema(
   {
@@ -14,6 +15,7 @@ const transactionSchema = new mongoose.Schema(
     category: {
       type: String,
       required: true,
+      ref: "category",
     },
     description: {
       type: String,

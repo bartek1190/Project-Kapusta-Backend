@@ -24,10 +24,22 @@ const router = express.Router();
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/Transaction'
+ *             $ref: '#/components/schemas/IncomeTransaction'
+ *           example:
+ *             date: "2024-03-19"
+ *             category: "Salary"
+ *             description: "Monthly salary"
+ *             amount: 5000
  *     responses:
  *       201:
  *         description: Transaction successfully created.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 user:
+ *                   $ref: '#/components/schemas/IncomeTransaction'
  *       400:
  *         description: Bad request, validation errors.
  *       401:
@@ -41,6 +53,43 @@ router.post(
   authMiddleware,
   transactionsController.addIncomeTransaction
 );
+
+/**
+ * @swagger
+ * /api/transactions/expenses:
+ *   post:
+ *     tags: [Transaction]
+ *     summary: Add a new expenses transaction for the logged-in user
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/ExpensesTransaction'
+ *           example:
+ *             date: "2024-03-19"
+ *             category: "Products"
+ *             description: "Apples"
+ *             amount: 5000
+ *     responses:
+ *       201:
+ *         description: Transaction successfully created.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 user:
+ *                   $ref: '#/components/schemas/ExpensesTransaction'
+ *       400:
+ *         description: Bad request, validation errors.
+ *       401:
+ *         description: Unauthorized, token missing or invalid.
+ *       500:
+ *         description: Internal server error.
+ */
 
 router.post(
   "/expenses",
@@ -58,6 +107,13 @@ router.post(
  *     responses:
  *       200:
  *         description: Successfully retrieved income transactions.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 user:
+ *                   $ref: '#/components/schemas/IncomeTransaction'
  *       401:
  *         description: Unauthorized, token missing or invalid.
  *       500:
@@ -81,6 +137,13 @@ router.get(
  *     responses:
  *       200:
  *         description: Successfully retrieved expenses transactions.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 user:
+ *                   $ref: '#/components/schemas/ExpensesTransaction'
  *       401:
  *         description: Unauthorized, token missing or invalid.
  *       500:

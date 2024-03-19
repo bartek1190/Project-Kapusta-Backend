@@ -20,7 +20,7 @@ const options = {
         },
       },
       schemas: {
-        Transactions: {
+        IncomeTransaction: {
           type: "object",
           properties: {
             _id: {
@@ -60,6 +60,50 @@ const options = {
             type: "income",
             category: "Salary",
             description: "Monthly salary",
+            amount: 5000,
+            user: "65f4a4b12e22a2c00cd7d50b",
+          },
+        },
+        ExpensesTransaction: {
+          type: "object",
+          properties: {
+            _id: {
+              type: "string",
+              description: "The auto-generated id of the user",
+            },
+            date: {
+              type: "string",
+              format: "date",
+              example: "2023-03-30",
+            },
+            type: {
+              type: "string",
+              example: "expenses",
+            },
+            category: {
+              type: "string",
+              example: "Products",
+            },
+            description: {
+              type: "string",
+              example: "Apples",
+            },
+            amount: {
+              type: "number",
+              example: 5000,
+            },
+            user: {
+              type: "string",
+              description: "Id of the user that transaction belongs to",
+            },
+          },
+          required: ["date", "type", "category", "description", "amount"],
+          example: {
+            _id: "65f874410a288365085a5608",
+            date: "2023-03-30",
+            type: "expenses",
+            category: "Products",
+            description: "Apples",
             amount: 5000,
             user: "65f4a4b12e22a2c00cd7d50b",
           },

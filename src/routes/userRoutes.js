@@ -18,13 +18,6 @@ const authMiddleware = require("../middlewares/authMiddleware");
  *     summary: Retrieve a user's details
  *     security:
  *       - bearerAuth: []
- *     parameters:
- *       - in: path
- *         name: userId
- *         required: true
- *         schema:
- *           type: string
- *         description: The user ID
  *     responses:
  *       200:
  *         description: User details retrieved successfully
@@ -46,13 +39,6 @@ router.get("/info", authMiddleware, usersController.getUser);
  *     summary: Update the user's balance
  *     security:
  *       - bearerAuth: []
- *     parameters:
- *       - in: path
- *         name: userId
- *         required: true
- *         schema:
- *           type: string
- *         description: The user ID
  *     requestBody:
  *       required: true
  *       content:

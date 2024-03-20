@@ -37,7 +37,7 @@ app.use("/api/categories", categoriesRoutes);
 app.use("/api/transactions", transactionsRoutes);
 app.use("/api/reports", reportsRoutes);
 
-require("./src/middlewares/googleAuthMiddleware"); //Początek implementacji google auth
+require("./src/middlewares/googleAuthMiddleware");
 
 function isLoggedIn(req, res, next) {
   req.user ? next() : res.sendStatus(401);
@@ -72,7 +72,7 @@ app.get("/logout", (req, res) => {
   req.logout();
   req.session.destroy();
   res.send("Goodbye");
-}); //Koniec implementacji google auth
+});
 
 app.use((req, res, next) => {
   res.status(404).json({ message: "Not found" });

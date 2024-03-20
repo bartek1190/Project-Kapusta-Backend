@@ -27,6 +27,15 @@ const updateUserBalance = async (req, res, next) => {
       balance: updatedUser.balance,
     });
   } catch (error) {
+    if (error.isJoi === true) {
+      return res.status(400).json({
+        status: "failure",
+        code: 400,
+        message:
+          "Bad request, validation errors: " +
+          error.details.map((detail) => detail.message).join(", "),
+      });
+    }
     next(error);
   }
 };

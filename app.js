@@ -5,6 +5,8 @@ const helmet = require("helmet");
 const morgan = require("morgan");
 const swaggerUI = require("swagger-ui-express");
 const specs = require("./src/middlewares/swaggerMiddleware");
+const passport = require("passport");
+const session = require("express-session");
 
 const app = express();
 
@@ -29,6 +31,47 @@ app.use("/api/users", userRoutes);
 app.use("/api/categories", categoriesRoutes);
 app.use("/api/transactions", transactionsRoutes);
 app.use("/api/reports", reportsRoutes);
+
+require("./src/middlewares/googleAuthMiddleware"); //Początek implementacji google auth
+
+app.use(session({ secret: "qwertyuiop" }));
+app.use(passport.initialize());
+app.use(passport.session());
+
+function isLoggedIn(req, res, next) {
+  req.user ? next() : res.sendStatus(401);
+}
+
+app.get("/", (req, res) => {
+  res.send('<a href="/auth/google">Authenticate with Google</a>');
+});
+
+app.get(
+  "/auth/google",
+  passport.authenticate("google", { scope: ["email", "profile"] })
+);
+
+app.get(
+  "/auth/google/callback",
+  passport.authenticate("google", {
+    successRedirect: "/protected",
+    failureRedirect: "/auth/failure",
+  })
+);
+
+app.get("/auth/failure", (req, res) => {
+  res.send("something went wrong..");
+});
+
+app.get("/protected", isLoggedIn, (req, res) => {
+  res.send("Hello");
+});
+
+app.get("/logout", (req, res) => {
+  req.logout();
+  req.session.destroy();
+  res.send("Goodbye");
+}); //Koniec implementacji google auth
 
 app.use((req, res, next) => {
   res.status(404).json({ message: "Not found" });

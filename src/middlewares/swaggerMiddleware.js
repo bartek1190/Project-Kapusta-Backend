@@ -8,6 +8,9 @@ const options = {
     },
     servers: [
       {
+        url: "https://vast-plum-camel-vest.cyclic.app",
+      },
+      {
         url: "http://localhost:4000",
       },
     ],

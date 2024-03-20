@@ -12,7 +12,7 @@ const authMiddleware = require("../middlewares/authMiddleware");
 
 /**
  * @swagger
- * /api/users/{userId}:
+ * /api/users/info:
  *   get:
  *     tags: [User]
  *     summary: Retrieve a user's details
@@ -36,11 +36,11 @@ const authMiddleware = require("../middlewares/authMiddleware");
  *         description: Internal server error
  */
 
-router.get("/:userId", usersController.getUser);
+router.get("/info", authMiddleware, usersController.getUser);
 
 /**
  * @swagger
- * /api/users/{userId}/balance:
+ * /api/users/balance:
  *   patch:
  *     tags: [User]
  *     summary: Update the user's balance
@@ -76,6 +76,6 @@ router.get("/:userId", usersController.getUser);
  *         description: Internal server error
  */
 
-router.patch("/", authMiddleware, usersController.updateUserBalance);
+router.patch("/balance", authMiddleware, usersController.updateUserBalance);
 
 module.exports = router;

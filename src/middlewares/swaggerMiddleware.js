@@ -10,9 +10,9 @@ const options = {
       {
         url: "https://vast-plum-camel-vest.cyclic.app",
       },
-      // {
-      //   url: "http://localhost:4000",
-      // },
+      {
+        url: "http://localhost:4000",
+      },
     ],
     components: {
       securitySchemes: {

@@ -181,6 +181,6 @@ router.get(
  *         description: Internal server error.
  */
 
-router.delete("/", authMiddleware, transactionsController.deleteTransaction);
+router.delete("/:id", authMiddleware, transactionsController.deleteTransaction);
 
 module.exports = router;

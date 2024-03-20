@@ -1,6 +1,6 @@
 const Transaction = require("../models/transactionModel");
 
-const getIncomeReport = async (userId) => {
+const getIncomePeriodReport = async (userId) => {
   try {
     const allTransactions = await Transaction.find({
       user: userId,
@@ -26,7 +26,7 @@ const getIncomeReport = async (userId) => {
   }
 };
 
-const getExpenseReport = async (userId) => {
+const getExpensesPeriodReport = async (userId) => {
   try {
     const allTransactions = await Transaction.find({
       user: userId,
@@ -51,5 +51,55 @@ const getExpenseReport = async (userId) => {
     console.log(err.message);
   }
 };
+const getExpensesCategoryReport = async (userId) => {
+  try {
+    const allTransactions = await Transaction.find({
+      user: userId,
+      type: "expenses",
+    });
+    const categorySum = {};
+    allTransactions.forEach((item) => {
+      const category = item.category;
 
-module.exports = { getIncomeReport, getExpenseReport };
+      if (categorySum[category]) {
+        categorySum[category] += item.amount;
+      } else {
+        categorySum[category] = item.amount;
+      }
+    });
+    return categorySum;
+  } catch (err) {
+    console.log(err.message);
+    return {};
+  }
+};
+
+const getIncomeCategoryReport = async (userId) => {
+  try {
+    const allTransactions = await Transaction.find({
+      user: userId,
+      type: "income",
+    });
+    const categorySum = {};
+    allTransactions.forEach((item) => {
+      const category = item.category;
+
+      if (categorySum[category]) {
+        categorySum[category] += item.amount;
+      } else {
+        categorySum[category] = item.amount;
+      }
+    });
+    return categorySum;
+  } catch (err) {
+    console.log(err.message);
+    return {};
+  }
+};
+
+module.exports = {
+  getIncomePeriodReport,
+  getExpensesPeriodReport,
+  getExpensesCategoryReport,
+  getIncomeCategoryReport,
+};

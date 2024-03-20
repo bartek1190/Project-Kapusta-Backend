@@ -3,7 +3,7 @@ const { validateUpdateBalance } = require("../validators/userValidator");
 
 const getUser = async (req, res, next) => {
   try {
-    const user = await userService.getUser(req.params.userId);
+    const user = await userService.getUser(req.user.id);
     res.status(200).json({
       status: "success",
       code: 200,

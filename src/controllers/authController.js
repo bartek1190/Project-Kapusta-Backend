@@ -75,7 +75,8 @@ const logout = async (req, res, next) => {
         message: "Logout failed, user not found or no token provided.",
       });
     }
-
+    console.log(req.session);
+    req.session.destroy();
     return res.status(200).json({
       status: "success",
       code: 200,

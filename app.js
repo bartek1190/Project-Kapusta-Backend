@@ -5,6 +5,7 @@ const helmet = require("helmet");
 const morgan = require("morgan");
 const swaggerUI = require("swagger-ui-express");
 const specs = require("./src/middlewares/swaggerMiddleware");
+
 const passport = require("passport");
 const session = require("express-session");
 
@@ -26,6 +27,10 @@ app.use(helmet());
 const formatsLogger = app.get("env") === "development" ? "dev" : "short";
 app.use(logger(formatsLogger));
 
+app.use(session({ secret: "qwertyuiop" }));
+app.use(passport.initialize());
+app.use(passport.session());
+
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/categories", categoriesRoutes);
@@ -33,10 +38,6 @@ app.use("/api/transactions", transactionsRoutes);
 app.use("/api/reports", reportsRoutes);
 
 require("./src/middlewares/googleAuthMiddleware"); //Początek implementacji google auth
-
-app.use(session({ secret: "qwertyuiop" }));
-app.use(passport.initialize());
-app.use(passport.session());
 
 function isLoggedIn(req, res, next) {
   req.user ? next() : res.sendStatus(401);

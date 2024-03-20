@@ -10,13 +10,20 @@ const userSchema = new mongoose.Schema(
     },
     password: {
       type: String,
-      required: true,
+      required: function () {
+        return !this.googleId;
+      }, // Only required if googleId is not present
     },
     balance: {
       type: Number,
       default: 0,
     },
     token: {
+      type: String,
+      default: null,
+    },
+    googleId: {
+      // Add this field for Google Auth
       type: String,
       default: null,
     },

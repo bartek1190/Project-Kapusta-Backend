@@ -1,8 +1,8 @@
 const reportsService = require("../services/reportsService");
 
-const getIncomeReport = async (req, res, next) => {
+const getIncomePeriodReport = async (req, res, next) => {
   try {
-    const report = await reportsService.getIncomeReport(req.user.id);
+    const report = await reportsService.getIncomePeriodReport(req.user.id);
     res.status(200).json({
       status: "success",
       code: 200,
@@ -13,9 +13,9 @@ const getIncomeReport = async (req, res, next) => {
   }
 };
 
-const getExpenseReport = async (req, res, next) => {
+const getExpensesPeriodReport = async (req, res, next) => {
   try {
-    const report = await reportsService.getExpenseReport(req.user.id);
+    const report = await reportsService.getExpensesPeriodReport(req.user.id);
     res.status(200).json({
       status: "success",
       code: 200,
@@ -26,4 +26,35 @@ const getExpenseReport = async (req, res, next) => {
   }
 };
 
-module.exports = { getIncomeReport, getExpenseReport };
+const getIncomeCategoryReport = async (req, res, next) => {
+  try {
+    const report = await reportsService.getIncomeCategoryReport(req.user.id);
+    res.status(200).json({
+      status: "success",
+      code: 200,
+      report,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+const getExpensesCategoryReport = async (req, res, next) => {
+  try {
+    const report = await reportsService.getExpensesCategoryReport(req.user.id);
+    res.status(200).json({
+      status: "success",
+      code: 200,
+      report,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+module.exports = {
+  getIncomePeriodReport,
+  getExpensesPeriodReport,
+  getExpensesCategoryReport,
+  getIncomeCategoryReport,
+};

@@ -91,7 +91,11 @@ router.post(
  *         description: Internal server error.
  */
 
-router.post("/expenses", transactionsController.addExpensesTransaction);
+router.post(
+  "/expenses",
+  authMiddleware,
+  transactionsController.addExpensesTransaction
+);
 /**
  * @swagger
  * /api/transactions/income:

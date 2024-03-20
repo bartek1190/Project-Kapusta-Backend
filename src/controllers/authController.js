@@ -11,7 +11,7 @@ const register = async (req, res, next) => {
     res.status(201).json({
       status: "success",
       code: 201,
-      user: result,
+      result,
     });
   } catch (error) {
     if (error.message === "User already exists") {

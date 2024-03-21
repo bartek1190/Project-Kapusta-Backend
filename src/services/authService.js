@@ -2,6 +2,7 @@ const User = require("../models/userModel");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { ObjectId } = require("mongodb");
+const md5 = require("md5");
 
 const register = async (userData) => {
   const { email, password } = userData;
@@ -9,7 +10,10 @@ const register = async (userData) => {
   if (existingUser) {
     throw new Error("User already exists");
   }
-  const user = new User({ email });
+  const firstLetter = email[0].toUpperCase();
+  const avatarUrl = `https://ui-avatars.com/api/?name=${firstLetter}&background=random&size=128`;
+
+  const user = new User({ email, avatarUrl });
   user.setPassword(password);
   const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
     expiresIn: "1h",

@@ -20,10 +20,13 @@ passport.use(
         let user = await User.findOne({ googleId: id });
         if (!user) {
           user = await User.findOne({ email: emails[0].value });
+          const firstLetter = emails[0].value[0].toUpperCase();
+          const avatarUrl = `https://ui-avatars.com/api/?name=${firstLetter}&background=random&size=128`;
           if (!user) {
             user = new User({
               googleId: id,
               email: emails[0].value,
+              avatarUrl: avatarUrl,
             });
           } else {
             user.googleId = id;

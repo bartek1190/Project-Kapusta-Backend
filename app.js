@@ -26,7 +26,62 @@ app.use("/api/users", userRoutes);
 app.use("/api/transactions", transactionsRoutes);
 app.use("/api/reports", reportsRoutes);
 
+<<<<<<< Updated upstream
 // Middleware do obsługi nieznalezionych adresów URL
+=======
+require("./src/middlewares/googleAuthMiddleware");
+
+function isLoggedIn(req, res, next) {
+  req.user ? next() : res.sendStatus(401);
+}
+
+app.get("/", (req, res) => {
+  res.send('<a href="/auth/google">Authenticate with Google</a>');
+});
+
+app.get(
+  "/auth/google",
+  passport.authenticate("google", { scope: ["email", "profile"] })
+);
+
+app.get(
+  "/auth/google/callback",
+  passport.authenticate("google", {
+    successRedirect: "/protected",
+    failureRedirect: "/auth/failure",
+  })
+);
+
+app.get("/auth/failure", (req, res) => {
+  res.send("something went wrong..");
+});
+
+app.get("/protected", isLoggedIn, (req, res) => {
+  res.send("Hello");
+});
+
+app.get("/logout", (req, res) => {
+  req.logout(function (err) {
+    if (err) {
+      return next(err);
+    }
+    if (req.session) {
+      req.session.destroy(function (err) {
+        if (err) {
+          console.log(err);
+          return next(err);
+        }
+        // After destroying the session and logging out, send a response or redirect the user
+        res.send("You have been logged out.");
+      });
+    } else {
+      // If there's no session, just send a logout confirmation
+      res.send("You have been logged out.");
+    }
+  });
+});
+
+>>>>>>> Stashed changes
 app.use((req, res, next) => {
   res.status(404).json({ message: "Not found" });
 });

@@ -19,17 +19,13 @@ passport.use(
       try {
         let user = await User.findOne({ googleId: id });
         if (!user) {
-          // If user doesn't exist by Google ID, check by email as a fallback
           user = await User.findOne({ email: emails[0].value });
           if (!user) {
-            // User doesn't exist by email, create a new user
             user = new User({
               googleId: id,
               email: emails[0].value,
-              // Set other fields as needed
             });
           } else {
-            // User exists by email, add Google ID to existing account
             user.googleId = id;
           }
         }
@@ -37,7 +33,6 @@ passport.use(
           expiresIn: "1h",
         });
         user.token = token;
-        // For existing users found by Google ID, you can update details if necessary here
         await user.save();
         done(null, user);
       } catch (error) {

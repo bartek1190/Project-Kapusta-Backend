@@ -6,13 +6,10 @@ const addIncomeTransaction = async (transactionData, userId) => {
   if (!transactionData.category) {
     throw new Error("Category is required for income transaction");
   }
-
-  // Check if the category exists in the database
   const category = await Category.findOne({ name: "income" }).exec();
   if (!category || !category.items.includes(transactionData.category)) {
     throw new Error("Invalid income category");
   }
-
   const transaction = new Transaction({
     ...transactionData,
     type: "income",
@@ -30,8 +27,6 @@ const addExpensesTransaction = async (transactionData, userId) => {
   if (!transactionData.category) {
     throw new Error("Category is required for expenses transaction");
   }
-
-  // Check if the category exists in the database
   const category = await Category.findOne({ name: "expenses" }).exec();
   if (!category || !category.items.includes(transactionData.category)) {
     throw new Error("Invalid expenses category");

@@ -69,11 +69,23 @@ app.get("/protected", isLoggedIn, (req, res) => {
 });
 
 app.get("/logout", (req, res) => {
-  req.logout();
-  req.session.destroy();
-  res.send("Goodbye");
+  req.logout(function (err) {
+    if (err) {
+      return next(err);
+    }
+    if (req.session) {
+      req.session.destroy(function (err) {
+        if (err) {
+          console.log(err);
+          return next(err);
+        }
+        res.send("You have been logged out.");
+      });
+    } else {
+      res.send("You have been logged out.");
+    }
+  });
 });
-
 app.use((req, res, next) => {
   res.status(404).json({ message: "Not found" });
 });

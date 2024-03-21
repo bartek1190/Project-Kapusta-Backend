@@ -41,8 +41,12 @@ const login = async (req, res, next) => {
         message: "User already logged in",
       });
     }
-
-    res.status(200).json({ status: "success", code: 200, user: result });
+    console.log(result);
+    res.status(200).json({
+      status: "success",
+      code: 200,
+      result,
+    });
   } catch (error) {
     if (error.message === "Invalid credentials") {
       return res.status(400).json({

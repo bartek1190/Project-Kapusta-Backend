@@ -21,24 +21,42 @@ const register = async (userData) => {
   user.token = token;
   await user.save();
 
-  return { user };
+  return {
+    user: {
+      email: user.email,
+      balance: user.balance,
+      avatarUrl: user.avatarUrl,
+      token: user.token,
+    },
+  };
 };
 
 const login = async (userData) => {
   const { email, password } = userData;
-  const user = await User.findOne({ email });
-  if (!user || !bcrypt.compareSync(password, user.password)) {
+  const registeredUser = await User.findOne({ email });
+  if (
+    !registeredUser ||
+    !bcrypt.compareSync(password, registeredUser.password)
+  ) {
     throw new Error("Invalid credentials");
   }
-  if (user.token) {
+  if (registeredUser.token) {
     return 400;
   }
-  const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+  const token = jwt.sign({ id: registeredUser._id }, process.env.JWT_SECRET, {
     expiresIn: "1h",
   });
 
-  await User.findOneAndUpdate({ _id: user._id }, { $set: { token } });
-  return { token };
+  await User.findOneAndUpdate({ _id: registeredUser._id }, { $set: { token } });
+  const user = await User.findOne({ email });
+  return {
+    user: {
+      email: user.email,
+      balance: user.balance,
+      avatarUrl: user.avatarUrl,
+      token: user.token,
+    },
+  };
 };
 
 const logout = async (userId) => {

@@ -13,9 +13,7 @@ Before you begin, ensure you have met the following requirements:
 
 # Follow these steps to get your development environment running:
 
-Clone the repository:
-bash
-
+- Clone the repository:
 - git clone [your-repo-link]
 - cd [your-repo-directory]
 - Install dependencies:

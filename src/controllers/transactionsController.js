@@ -35,6 +35,7 @@ const addIncomeTransaction = async (req, res, next) => {
 
 const addExpensesTransaction = async (req, res, next) => {
   try {
+    console.log(req.body);
     await validateExpensesTransaction(req.body);
     const transaction = await transactionsService.addExpensesTransaction(
       req.body,

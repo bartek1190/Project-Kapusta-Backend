@@ -9,7 +9,7 @@ const incomeTransactionSchema = Joi.object({
 });
 
 const expensesTransactionSchema = Joi.object({
-  date: Joi.date().required(),
+  date: Joi.string().required(),
   type: Joi.string().valid("expenses"),
   category: Joi.string()
     .valid(

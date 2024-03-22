@@ -1,11 +1,17 @@
 const mongoose = require("mongoose");
-const Category = require("./categoryModel");
 
 const transactionSchema = new mongoose.Schema(
   {
     date: {
-      type: Date,
+      type: String,
       required: true,
+      validate: {
+        validator: function (value) {
+          return /^(0[1-9]|[12]\d|3[01])\.(0[1-9]|1[0-2])\.\d{4}$/.test(value);
+        },
+        message: (props) =>
+          `${props.value} is not a valid date format (DD.MM.YYYY)!`,
+      },
     },
     type: {
       type: String,

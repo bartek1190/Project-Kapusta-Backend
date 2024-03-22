@@ -3,7 +3,7 @@ const {
   validateIncomeTransaction,
   validateExpensesTransaction,
 } = require("../validators/transactionValidator");
-const Transaction = require("../models/transactionModel");
+// const Transaction = require("../models/transactionModel");
 
 const addIncomeTransaction = async (req, res, next) => {
   try {
@@ -87,12 +87,11 @@ const deleteTransaction = async (req, res, next) => {
   try {
     const transactionId = req.params.id;
     const userId = req.user.id;
-
-    const transaction = await Transaction.findOne({
-      _id: transactionId,
-      user: userId,
-    });
-    if (!transaction) {
+    const result = await transactionsService.deleteTransaction(
+      transactionId,
+      userId
+    );
+    if (result === 400) {
       return res.status(400).json({
         status: "failure",
         code: 400,
@@ -101,13 +100,13 @@ const deleteTransaction = async (req, res, next) => {
       });
     }
 
-    await Transaction.deleteOne({ _id: transactionId });
     res.status(200).json({
       status: "success",
       code: 200,
       message: "Transaction successfully deleted.",
     });
   } catch (error) {
+    console.error(error);
     if (error.kind === "ObjectId") {
       return res.status(400).json({
         status: "failure",
@@ -115,7 +114,6 @@ const deleteTransaction = async (req, res, next) => {
         message: "Bad request, invalid transaction ID format.",
       });
     }
-    console.error(error);
     next(error);
   }
 };

@@ -26,7 +26,7 @@ const router = express.Router();
  *           schema:
  *             $ref: '#/components/schemas/IncomeTransaction'
  *           example:
- *             date: "2024-03-19"
+ *             date: "19.03.2024"
  *             category: "Salary"
  *             description: "Monthly salary"
  *             amount: 5000
@@ -38,8 +38,27 @@ const router = express.Router();
  *             schema:
  *               type: object
  *               properties:
+ *                 date:
+ *                   type: string
+ *                   example: "19.03.2024"
+ *                 type:
+ *                   type: string
+ *                   example: "income"
+ *                 category:
+ *                   type: string
+ *                   example: "Salary"
+ *                 description:
+ *                   type: string
+ *                   example: "Monthly salary"
+ *                 amount:
+ *                   type: number
+ *                   example: 5000
  *                 user:
- *                   $ref: '#/components/schemas/IncomeTransaction'
+ *                   type: string
+ *                   example: "65f874410a288365085a5608"
+ *                 _id:
+ *                   type: string
+ *                   example: "65f4a4b12e22a2c00cd7d50b"
  *       400:
  *         description: Bad request, validation errors.
  *       401:
@@ -69,10 +88,10 @@ router.post(
  *           schema:
  *             $ref: '#/components/schemas/ExpensesTransaction'
  *           example:
- *             date: "2024-03-19"
+ *             date: "19.03.2024"
  *             category: "Products"
  *             description: "Apples"
- *             amount: 5000
+ *             amount: 20
  *     responses:
  *       201:
  *         description: Transaction successfully created.
@@ -81,8 +100,27 @@ router.post(
  *             schema:
  *               type: object
  *               properties:
+ *                 date:
+ *                   type: string
+ *                   example: "19.03.2024"
+ *                 type:
+ *                   type: string
+ *                   example: "expenses"
+ *                 category:
+ *                   type: string
+ *                   example: "Products"
+ *                 description:
+ *                   type: string
+ *                   example: "Apples"
+ *                 amount:
+ *                   type: number
+ *                   example: 20
  *                 user:
- *                   $ref: '#/components/schemas/ExpensesTransaction'
+ *                   type: string
+ *                   example: "65f874410a288365085a5608"
+ *                 _id:
+ *                   type: string
+ *                   example: "65f4a4b12e22a2c00cd7d50b"
  *       400:
  *         description: Bad request, validation errors.
  *       401:
@@ -110,10 +148,31 @@ router.post(
  *         content:
  *           application/json:
  *             schema:
- *               type: object
- *               properties:
- *                 user:
- *                   $ref: '#/components/schemas/IncomeTransaction'
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   date:
+ *                     type: string
+ *                     example: "19.03.2024"
+ *                   type:
+ *                     type: string
+ *                     example: "income"
+ *                   category:
+ *                     type: string
+ *                     example: "Salary"
+ *                   description:
+ *                     type: string
+ *                     example: "Monthly salary"
+ *                   amount:
+ *                     type: number
+ *                     example: 5000
+ *                   user:
+ *                     type: string
+ *                     example: "65f874410a288365085a5608"
+ *                   _id:
+ *                     type: string
+ *                     example: "65f4a4b12e22a2c00cd7d50b"
  *       401:
  *         description: Unauthorized, token missing or invalid.
  *       500:
@@ -140,10 +199,31 @@ router.get(
  *         content:
  *           application/json:
  *             schema:
- *               type: object
- *               properties:
- *                 user:
- *                   $ref: '#/components/schemas/ExpensesTransaction'
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   date:
+ *                     type: string
+ *                     example: "19.03.2024"
+ *                   type:
+ *                     type: string
+ *                     example: "expenses"
+ *                   category:
+ *                     type: string
+ *                     example: "Products"
+ *                   description:
+ *                     type: string
+ *                     example: "Apples"
+ *                   amount:
+ *                     type: number
+ *                     example: 20
+ *                   user:
+ *                     type: string
+ *                     example: "65f874410a288365085a5608"
+ *                   _id:
+ *                     type: string
+ *                     example: "65f4a4b12e22a2c00cd7d50b"
  *       401:
  *         description: Unauthorized, token missing or invalid.
  *       500:
@@ -173,6 +253,22 @@ router.get(
  *     responses:
  *       200:
  *         description: Transaction successfully deleted.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: string
+ *                   example: success
+ *                   description: Status of the call.
+ *                 code:
+ *                   type: number
+ *                   example: 200
+ *                   description: Status code.
+ *                 message:
+ *                   type: string
+ *                   example: Transaction successfully deleted.
  *       400:
  *         description: Bad request, invalid transaction ID.
  *       401:

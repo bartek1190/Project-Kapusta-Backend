@@ -9,9 +9,9 @@ const getIncomePeriodReport = async (userId) => {
     const monthlySum = {};
 
     allTransactions.forEach((item) => {
-      const date = new Date(item.date);
-      const year = date.getFullYear();
-      const month = date.getMonth() + 1;
+      const date = item.date;
+      const year = date.split(".")[2];
+      const month = date.split(".")[1];
       const key = `${year}-${month}`;
 
       if (monthlySum[key]) {
@@ -35,9 +35,9 @@ const getExpensesPeriodReport = async (userId) => {
     const monthlySum = {};
 
     allTransactions.forEach((item) => {
-      const date = new Date(item.date);
-      const year = date.getFullYear();
-      const month = date.getMonth() + 1;
+      const date = item.date;
+      const year = date.split(".")[2];
+      const month = date.split(".")[1];
       const key = `${year}-${month}`;
 
       if (monthlySum[key]) {

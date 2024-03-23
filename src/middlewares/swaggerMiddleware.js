@@ -113,23 +113,29 @@ const options = {
         },
         IncomeCategories: {
           type: "array",
-          example: ["Salary", "Add. Income"],
+          items: {
+            type: "string",
+            example: ["Salary", "Add. Income"],
+          },
         },
         ExpensesCategories: {
           type: "array",
-          example: [
-            "Transport",
-            "Products",
-            "Health",
-            "Alcohol",
-            "Entertainment",
-            "Housing",
-            "Technique",
-            "Communal, communication",
-            "Sports, hobbies",
-            "Education",
-            "Other",
-          ],
+          items: {
+            type: "String",
+            example: [
+              "Transport",
+              "Products",
+              "Health",
+              "Alcohol",
+              "Entertainment",
+              "Housing",
+              "Technique",
+              "Communal, communication",
+              "Sports, hobbies",
+              "Education",
+              "Other",
+            ],
+          },
         },
         User: {
           type: "object",

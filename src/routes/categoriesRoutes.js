@@ -23,7 +23,6 @@ const authMiddleware = require("../middlewares/authMiddleware");
  *         content:
  *           application/json:
  *             schema:
- *               type: array
  *               items:
  *                 $ref: '#/components/schemas/IncomeCategories'
  *       401:

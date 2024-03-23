@@ -5,20 +5,35 @@ const authMiddleware = require("../middlewares/authMiddleware");
 /**
  * @swagger
  * tags:
- *   name: Transaction
+ *   name: Reports
  *   description: Transaction endpoints
  */
 /**
  * @swagger
  * /api/reports/income-by-period:
  *   get:
- *     tags: [Transaction]
+ *     tags: [Reports]
  *     summary: Get income report for the logged-in user
  *     security:
  *       - bearerAuth: []
  *     responses:
  *       200:
  *         description: Income report data successfully retrieved.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: string
+ *                   example: success
+ *                   description: Status of the call.
+ *                 code:
+ *                   type: number
+ *                   example: 200
+ *                   description: Status code.
+ *                 report:
+ *                   example: {}
  *       401:
  *         description: Unauthorized, token missing or invalid.
  *       500:
@@ -35,13 +50,28 @@ router.get(
  * @swagger
  * /api/reports/expenses-by-period:
  *   get:
- *     tags: [Transaction]
+ *     tags: [Reports]
  *     summary: Get expenses report for the logged-in user
  *     security:
  *       - bearerAuth: []
  *     responses:
  *       200:
  *         description: Expenses report data successfully retrieved.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: string
+ *                   example: success
+ *                   description: Status of the call.
+ *                 code:
+ *                   type: number
+ *                   example: 200
+ *                   description: Status code.
+ *                 report:
+ *                   example: {}
  *       401:
  *         description: Unauthorized, token missing or invalid.
  *       500:
@@ -58,13 +88,28 @@ router.get(
  * @swagger
  * /api/reports/income-by-category:
  *   get:
- *     tags: [Transaction]
+ *     tags: [Reports]
  *     summary: Get income report for the logged-in user
  *     security:
  *       - bearerAuth: []
  *     responses:
  *       200:
  *         description: Income report data successfully retrieved.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: string
+ *                   example: success
+ *                   description: Status of the call.
+ *                 code:
+ *                   type: number
+ *                   example: 200
+ *                   description: Status code.
+ *                 report:
+ *                   example: {}
  *       401:
  *         description: Unauthorized, token missing or invalid.
  *       500:
@@ -81,13 +126,28 @@ router.get(
  * @swagger
  * /api/reports/expenses-by-category:
  *   get:
- *     tags: [Transaction]
+ *     tags: [Reports]
  *     summary: Get expenses report for the logged-in user
  *     security:
  *       - bearerAuth: []
  *     responses:
  *       200:
  *         description: Expenses report data successfully retrieved.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: string
+ *                   example: success
+ *                   description: Status of the call.
+ *                 code:
+ *                   type: number
+ *                   example: 200
+ *                   description: Status code.
+ *                 report:
+ *                   example: {}
  *       401:
  *         description: Unauthorized, token missing or invalid.
  *       500:

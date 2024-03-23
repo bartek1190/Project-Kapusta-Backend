@@ -42,8 +42,21 @@ const authMiddleware = require("../middlewares/authMiddleware");
  *             schema:
  *               type: object
  *               properties:
- *                 user:
- *                   $ref: '#/components/schemas/User'
+ *                 status:
+ *                   type: string
+ *                   example: success
+ *                   description: Status of the call.
+ *                 code:
+ *                   type: number
+ *                   example: 201
+ *                   description: Status code.
+ *                 result:
+ *                   example:
+ *                     user:
+ *                       email: test@gmail.com.
+ *                       balance: 0
+ *                       avatarUrl: https://ui-avatars.com/api/?name=T&background=random&size=128.
+ *                       token: eyJhGciOiJIUzINiIsInR5cCIIkpXVCJ9.eyJZCI6IjY1ZmRjMmYM2ViZWFmNGEyZjIwN2ZhZCIsImlhdC6MTcxTEyOTMzNiwiZXhwIjxNzExMTMyOTM2fQ._eWN2Hb1kqQkI39pxw6_FIYr1w-aC2k0DZutbVxl8
  *       400:
  *         description: Bad request, possibly due to missing fields or invalid input.
  *       409:
@@ -80,9 +93,21 @@ const authMiddleware = require("../middlewares/authMiddleware");
  *             schema:
  *               type: object
  *               properties:
- *                 token:
+ *                 status:
  *                   type: string
- *                   description: The JWT token for authentication.
+ *                   example: success
+ *                   description: Status of the call.
+ *                 code:
+ *                   type: number
+ *                   example: 201
+ *                   description: Status code.
+ *                 result:
+ *                   example:
+ *                     user:
+ *                       email: test@gmail.com.
+ *                       balance: 0
+ *                       avatarUrl: https://ui-avatars.com/api/?name=T&background=random&size=128.
+ *                       token: eyJhGciOiJIUzINiIsInR5cCIIkpXVCJ9.eyJZCI6IjY1ZmRjMmYM2ViZWFmNGEyZjIwN2ZhZCIsImlhdC6MTcxTEyOTMzNiwiZXhwIjxNzExMTMyOTM2fQ._eWN2Hb1kqQkI39pxw6_FIYr1w-aC2k0DZutbVxl8
  *       400:
  *         description: Bad request, possibly due to missing fields or invalid input.
  *
@@ -94,15 +119,24 @@ const authMiddleware = require("../middlewares/authMiddleware");
  *     security:
  *       - bearerAuth: []
  *     responses:
- *       204:
+ *       200:
  *         description: User logged out successfully.
  *         content:
  *           application/json:
  *             schema:
  *               type: object
  *               properties:
+ *                 status:
+ *                   type: string
+ *                   example: success
+ *                   description: Status of the call.
+ *                 code:
+ *                   type: number
+ *                   example: 200
+ *                   description: Status code.
  *                 message:
  *                   type: string
+ *                   example: User logged out successfully.
  *                   description: A message confirming that the user has been logged out.
  *       401:
  *         description: Unauthorized, no token provided or token is invalid.

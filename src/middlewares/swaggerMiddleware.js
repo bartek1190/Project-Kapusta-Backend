@@ -117,7 +117,19 @@ const options = {
         },
         ExpensesCategories: {
           type: "array",
-          example: ["Products", "Alcohol"],
+          example: [
+            "Transport",
+            "Products",
+            "Health",
+            "Alcohol",
+            "Entertainment",
+            "Housing",
+            "Technique",
+            "Communal, communication",
+            "Sports, hobbies",
+            "Education",
+            "Other",
+          ],
         },
         User: {
           type: "object",

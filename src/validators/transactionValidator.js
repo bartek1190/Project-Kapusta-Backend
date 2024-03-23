@@ -1,7 +1,7 @@
 const Joi = require("joi");
 
 const incomeTransactionSchema = Joi.object({
-  date: Joi.date().required(),
+  date: Joi.string().required(),
   type: Joi.string().valid("income"),
   category: Joi.string().valid("Salary", "Add. Income").required(),
   description: Joi.string().required(),

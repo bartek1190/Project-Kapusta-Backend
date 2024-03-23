@@ -6,7 +6,7 @@ const getIncomePeriodReport = async (userId) => {
       user: userId,
       type: "income",
     });
-    const monthlySum = {};
+    const monthlySum = [];
 
     allTransactions.forEach((item) => {
       const date = item.date;
@@ -14,10 +14,12 @@ const getIncomePeriodReport = async (userId) => {
       const month = date.split(".")[1];
       const key = `${year}-${month}`;
 
-      if (monthlySum[key]) {
-        monthlySum[key] += item.amount;
+      const existingIndex = monthlySum.findIndex((entry)=> entry.key === key)
+
+      if (existingIndex !== -1) {
+        monthlySum[existingIndex].total += item.amount;
       } else {
-        monthlySum[key] = item.amount;
+        monthlySum.push({key, total: item.amount});
       }
     });
     return monthlySum;
@@ -32,7 +34,7 @@ const getExpensesPeriodReport = async (userId) => {
       user: userId,
       type: "expenses",
     });
-    const monthlySum = {};
+    const monthlySum = [];
 
     allTransactions.forEach((item) => {
       const date = item.date;
@@ -40,10 +42,12 @@ const getExpensesPeriodReport = async (userId) => {
       const month = date.split(".")[1];
       const key = `${year}-${month}`;
 
-      if (monthlySum[key]) {
-        monthlySum[key] += item.amount;
+      const existingIndex = monthlySum.findIndex((entry)=> entry.key === key)
+
+      if (existingIndex !== -1) {
+        monthlySum[existingIndex].total += item.amount;
       } else {
-        monthlySum[key] = item.amount;
+        monthlySum.push({key, total: item.amount});
       }
     });
     return monthlySum;

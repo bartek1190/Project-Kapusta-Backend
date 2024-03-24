@@ -37,6 +37,7 @@ app.use("/api/categories", categoriesRoutes);
 app.use("/api/transactions", transactionsRoutes);
 app.use("/api/reports", reportsRoutes);
 
+
 require("./src/middlewares/googleAuthMiddleware");
 
 function isLoggedIn(req, res, next) {
@@ -55,7 +56,7 @@ app.get(
 app.get(
   "/auth/google/callback",
   passport.authenticate("google", {
-    successRedirect: "/protected",
+    successRedirect: "http://localhost:3000/main",
     failureRedirect: "/auth/failure",
   })
 );
@@ -79,13 +80,16 @@ app.get("/logout", (req, res) => {
           console.log(err);
           return next(err);
         }
+        // After destroying the session and logging out, send a response or redirect the user
         res.send("You have been logged out.");
       });
     } else {
-      res.send("You have been logged out.");
-    }
+      // If there's no session, just send a logout confirmation
+        res.send("You have been logged out.");
+      });
   });
 });
+
 app.use((req, res, next) => {
   res.status(404).json({ message: "Not found" });
 });

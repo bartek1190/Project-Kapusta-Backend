@@ -12,7 +12,6 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: function () {
         return !this.googleId;
-      },
     },
     balance: {
       type: Number,
@@ -23,6 +22,10 @@ const userSchema = new mongoose.Schema(
       default: null,
     },
     googleId: {
+      // Add this field for Google Auth
+      type: String,
+      default: null,
+    },
       type: String,
       default: null,
     },

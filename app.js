@@ -37,7 +37,6 @@ app.use("/api/categories", categoriesRoutes);
 app.use("/api/transactions", transactionsRoutes);
 app.use("/api/reports", reportsRoutes);
 
-
 require("./src/middlewares/googleAuthMiddleware");
 
 function isLoggedIn(req, res, next) {
@@ -80,13 +79,11 @@ app.get("/logout", (req, res) => {
           console.log(err);
           return next(err);
         }
-        // After destroying the session and logging out, send a response or redirect the user
         res.send("You have been logged out.");
       });
     } else {
-      // If there's no session, just send a logout confirmation
-        res.send("You have been logged out.");
-      });
+      res.send("You have been logged out.");
+    }
   });
 });
 

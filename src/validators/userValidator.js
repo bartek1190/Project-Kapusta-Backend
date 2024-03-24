@@ -10,12 +10,20 @@ const loginSchema = Joi.object({
   password: Joi.string().required(),
 });
 
+const updateBalanceSchema = Joi.object({
+  balance: Joi.number().min(0.01).required(),
+});
+
 const validateRegister = (userData) => {
-  return registerSchema.validate(userData, { abortEarly: false });
+  return registerSchema.validateAsync(userData, { abortEarly: false });
 };
 
-const validateLogin = (userData) => {
-  return loginSchema.validate(userData, { abortEarly: false });
+const validateLogin = async (userData) => {
+  return await loginSchema.validateAsync(userData, { abortEarly: false });
 };
 
-module.exports = { validateRegister, validateLogin };
+const validateUpdateBalance = (userData) => {
+  return updateBalanceSchema.validateAsync(userData, { abortEarly: false });
+};
+
+module.exports = { validateRegister, validateLogin, validateUpdateBalance };

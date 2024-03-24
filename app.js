@@ -1,34 +1,43 @@
 const express = require("express");
 const logger = require("morgan");
 const cors = require("cors");
-const helmet = require("helmet"); // Dodanie Helmet do poprawy bezpieczeństwa aplikacji
+const helmet = require("helmet");
+const morgan = require("morgan");
+const swaggerUI = require("swagger-ui-express");
+const specs = require("./src/middlewares/swaggerMiddleware");
+
+const passport = require("passport");
+const session = require("express-session");
 
 const app = express();
 
-// Importowanie routerów
+app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(specs));
 const authRoutes = require("./src/routes/authRoutes");
 const userRoutes = require("./src/routes/userRoutes");
+const categoriesRoutes = require("./src/routes/categoriesRoutes");
 const transactionsRoutes = require("./src/routes/transactionsRoutes");
 const reportsRoutes = require("./src/routes/reportsRoutes");
 
-// Middleware
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(morgan("dev"));
 app.use(cors());
 app.use(helmet());
 
 const formatsLogger = app.get("env") === "development" ? "dev" : "short";
 app.use(logger(formatsLogger));
 
-// Routing
+app.use(session({ secret: "qwertyuiop" }));
+app.use(passport.initialize());
+app.use(passport.session());
+
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
+app.use("/api/categories", categoriesRoutes);
 app.use("/api/transactions", transactionsRoutes);
 app.use("/api/reports", reportsRoutes);
 
-<<<<<<< Updated upstream
-// Middleware do obsługi nieznalezionych adresów URL
-=======
+
 require("./src/middlewares/googleAuthMiddleware");
 
 function isLoggedIn(req, res, next) {
@@ -76,19 +85,17 @@ app.get("/logout", (req, res) => {
       });
     } else {
       // If there's no session, just send a logout confirmation
-      res.send("You have been logged out.");
-    }
+        res.send("You have been logged out.");
+      });
   });
 });
 
->>>>>>> Stashed changes
 app.use((req, res, next) => {
   res.status(404).json({ message: "Not found" });
 });
 
-// Centralne miejsce do obsługi błędów
 app.use((err, req, res, next) => {
-  console.error(err.stack); // Logowanie stack trace dla błędu
+  console.error(err.stack);
   const status = err.status || 500;
   const message = err.message || "Internal Server Error";
   res.status(status).json({ error: message });

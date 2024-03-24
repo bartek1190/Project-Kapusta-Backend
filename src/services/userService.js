@@ -8,9 +8,9 @@ const getUser = async (userId) => {
   return user;
 };
 
-const updateUser = async (userId, updateData) => {
+const updateUserBalance = async (userId, updateData) => {
   const user = await User.findByIdAndUpdate(userId, updateData, { new: true });
   return user;
 };
 
-module.exports = { getUser, updateUser };
+module.exports = { getUser, updateUserBalance };

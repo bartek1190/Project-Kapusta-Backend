@@ -4,7 +4,7 @@ const app = require("./app");
 
 dotenv.config();
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 4000;
 const DB_URI = process.env.DB_URI;
 
 const connectDatabase = async () => {

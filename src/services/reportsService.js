@@ -1,18 +1,109 @@
 const Transaction = require("../models/transactionModel");
 
-const getIncomeReport = async (userId) => {
-  const transactions = await Transaction.find({ user: userId, type: "income" });
-  // Logic to generate income report
-  return transactions;
+const getIncomePeriodReport = async (userId) => {
+  try {
+    const allTransactions = await Transaction.find({
+      user: userId,
+      type: "income",
+    });
+    const monthlySum = [];
+
+    allTransactions.forEach((item) => {
+      const date = item.date;
+      const year = date.split(".")[2];
+      const month = date.split(".")[1];
+      const key = `${year}-${month}`;
+
+      const existingIndex = monthlySum.findIndex((entry)=> entry.key === key)
+
+      if (existingIndex !== -1) {
+        monthlySum[existingIndex].total += item.amount;
+      } else {
+        monthlySum.push({key, total: item.amount});
+      }
+    });
+    return monthlySum;
+  } catch (err) {
+    console.log(err.message);
+  }
 };
 
-const getExpenseReport = async (userId) => {
-  const transactions = await Transaction.find({
-    user: userId,
-    type: "expense",
-  });
-  // Logic to generate expense report
-  return transactions;
+const getExpensesPeriodReport = async (userId) => {
+  try {
+    const allTransactions = await Transaction.find({
+      user: userId,
+      type: "expenses",
+    });
+    const monthlySum = [];
+
+    allTransactions.forEach((item) => {
+      const date = item.date;
+      const year = date.split(".")[2];
+      const month = date.split(".")[1];
+      const key = `${year}-${month}`;
+
+      const existingIndex = monthlySum.findIndex((entry)=> entry.key === key)
+
+      if (existingIndex !== -1) {
+        monthlySum[existingIndex].total += item.amount;
+      } else {
+        monthlySum.push({key, total: item.amount});
+      }
+    });
+    return monthlySum;
+  } catch (err) {
+    console.log(err.message);
+  }
+};
+const getExpensesCategoryReport = async (userId) => {
+  try {
+    const allTransactions = await Transaction.find({
+      user: userId,
+      type: "expenses",
+    });
+    const categorySum = {};
+    allTransactions.forEach((item) => {
+      const category = item.category;
+
+      if (categorySum[category]) {
+        categorySum[category] += item.amount;
+      } else {
+        categorySum[category] = item.amount;
+      }
+    });
+    return categorySum;
+  } catch (err) {
+    console.log(err.message);
+    return {};
+  }
 };
 
-module.exports = { getIncomeReport, getExpenseReport };
+const getIncomeCategoryReport = async (userId) => {
+  try {
+    const allTransactions = await Transaction.find({
+      user: userId,
+      type: "income",
+    });
+    const categorySum = {};
+    allTransactions.forEach((item) => {
+      const category = item.category;
+
+      if (categorySum[category]) {
+        categorySum[category] += item.amount;
+      } else {
+        categorySum[category] = item.amount;
+      }
+    });
+    return categorySum;
+  } catch (err) {
+    console.log(err.message);
+    return {};
+  }
+};
+
+module.exports = {
+  getIncomePeriodReport,
+  getExpensesPeriodReport,
+  getExpensesCategoryReport,
+  getIncomeCategoryReport,
+};

@@ -1,17 +1,30 @@
 const jwt = require("jsonwebtoken");
+const User = require("../models/userModel");
 
-const authMiddleware = (req, res, next) => {
-  const token = req.headers.authorization?.split(" ")[1]; // Pobranie tokena z nagłówka
+const authMiddleware = async (req, res, next) => {
+  const token = req.headers.authorization?.split(" ")[1];
   if (!token) {
-    return res.status(401).json({ message: "Brak tokena autoryzacyjnego" });
+    return res.status(401).json({
+      status: "failure",
+      code: 401,
+      message: "no token provided",
+    });
   }
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = decoded; // Przypisanie dekodowanego użytkownika do req.user
+    req.user = decoded;
     next();
   } catch (error) {
-    res.status(401).json({ message: "Nieprawidłowy token" });
+    console.log(error.message);
+    if (error.message === "jwt expired") {
+      await User.updateOne({ token }, { token: null });
+    }
+    res.status(401).json({
+      status: "failure",
+      code: 401,
+      message: "invalid token",
+    });
   }
 };
 

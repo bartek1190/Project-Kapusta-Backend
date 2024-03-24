@@ -1,13 +1,6 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 
-<<<<<<< Updated upstream
-const userSchema = new mongoose.Schema({
-  email: {
-    type: String,
-    required: true,
-    unique: true,
-=======
 const userSchema = new mongoose.Schema(
   {
     email: {
@@ -19,7 +12,6 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: function () {
         return !this.googleId;
-      }, // Only required if googleId is not present
     },
     balance: {
       type: Number,
@@ -34,17 +26,15 @@ const userSchema = new mongoose.Schema(
       type: String,
       default: null,
     },
->>>>>>> Stashed changes
+      type: String,
+      default: null,
+    },
+    avatarUrl: {
+      type: String,
+    },
   },
-  password: {
-    type: String,
-    required: true,
-  },
-  balance: {
-    type: Number,
-    default: 0,
-  },
-});
+  { versionKey: false }
+);
 
 userSchema.methods.setPassword = function (password) {
   this.password = bcrypt.hashSync(password, bcrypt.genSaltSync(10));

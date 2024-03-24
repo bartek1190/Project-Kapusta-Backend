@@ -47,7 +47,7 @@ app.get(
 app.get(
   "/auth/google/callback",
   passport.authenticate("google", {
-    successRedirect: "/protected",
+    successRedirect: "http://localhost:3000/main",
     failureRedirect: "/auth/failure",
   })
 );

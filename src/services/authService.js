@@ -62,7 +62,6 @@ const login = async (userData) => {
 const logout = async (userId) => {
   try {
     const user = await User.findOne({ _id: userId });
-    console.log("token :  ", user.token);
     if (!user || !user.token) {
       return 400;
     }

@@ -20,7 +20,7 @@ const expensesTransactionSchema = Joi.object({
       "Entertainment",
       "Housing",
       "Technique",
-      "Communal, communications",
+      "Communal, communication",
       "Sports, hobbies",
       "Education",
       "Other"

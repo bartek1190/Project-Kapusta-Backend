@@ -40,4 +40,17 @@ const updateUserBalance = async (req, res, next) => {
   }
 };
 
-module.exports = { getUser, updateUserBalance };
+const getUserBalance = async (req, res, next) => {
+  try {
+    const user = await userService.getUserBalance(req.user.id);
+    res.status(200).json({
+      status: "success",
+      code: 200,
+      balance: user.balance,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+module.exports = { getUser, updateUserBalance, getUserBalance };

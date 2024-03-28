@@ -117,4 +117,6 @@ router.get("/info", authMiddleware, usersController.getUser);
 
 router.patch("/balance", authMiddleware, usersController.updateUserBalance);
 
+router.get("/balance", authMiddleware, usersController.getUserBalance);
+
 module.exports = router;

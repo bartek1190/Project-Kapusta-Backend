@@ -71,7 +71,6 @@ const login = async (req, res, next) => {
 const logout = async (req, res, next) => {
   try {
     const result = await authService.logout(req.user.id);
-
     if (result === 400) {
       return res.status(400).json({
         status: "failure",
@@ -79,8 +78,9 @@ const logout = async (req, res, next) => {
         message: "Logout failed, user not found or no token provided.",
       });
     }
-    console.log(req.session);
-    req.session.destroy();
+    // Clear the session for cookie-session
+    req.session = null;
+
     return res.status(200).json({
       status: "success",
       code: 200,

@@ -5,9 +5,8 @@ const helmet = require("helmet");
 const morgan = require("morgan");
 const swaggerUI = require("swagger-ui-express");
 const specs = require("./src/middlewares/swaggerMiddleware");
-
 const passport = require("passport");
-const session = require("express-session");
+const cookieSession = require("cookie-session");
 
 const app = express();
 
@@ -21,15 +20,33 @@ const reportsRoutes = require("./src/routes/reportsRoutes");
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(morgan("dev"));
-app.use(cors());
+app.use(cors({ origin: "http://localhost:3000", credentials: true }));
 app.use(helmet());
 
 const formatsLogger = app.get("env") === "development" ? "dev" : "short";
 app.use(logger(formatsLogger));
 
-app.use(session({ secret: "qwertyuiop" }));
+app.use(
+  cookieSession({
+    name: "google-auth-session",
+    keys: ["key1", "key2"],
+    maxAge: 24 * 60 * 60 * 1000, // 24 hours
+  })
+);
+
 app.use(passport.initialize());
 app.use(passport.session());
+
+// Override req.login here
+app.use((req, res, next) => {
+  req.login = req.logIn = function (user, options, done) {
+    req.user = user;
+    if (typeof done === "function") {
+      done();
+    }
+  };
+  next();
+});
 
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
@@ -54,14 +71,29 @@ app.get(
 
 app.get(
   "/auth/google/callback",
-  passport.authenticate("google", {
-    successRedirect: "http://localhost:3000/main",
-    failureRedirect: "/auth/failure",
-  })
+  passport.authenticate("google", { failureRedirect: "/auth/failure" }),
+  (req, res) => {
+    // Assuming the JWT token is already attached to req.user.token by your authentication strategy
+    if (req.user && req.user.token) {
+      // Set the token in the session cookie
+      req.session.token = req.user.token; // Storing the token in the session
+
+      // Optionally, if you need to pass the token directly to the frontend for initial setup
+      // Note: Redirecting with the token in the URL is not the recommended approach for production environments
+      // due to potential security implications. This is just for demonstration.
+      // A safer approach involves handling the token entirely server-side or using HttpOnly cookies.
+
+      // Redirect the user to the frontend with the token as a query parameter
+      res.redirect(`http://localhost:3000/success?token=${req.user.token}`);
+    } else {
+      console.log("No user token found");
+      res.redirect("/auth/failure");
+    }
+  }
 );
 
 app.get("/auth/failure", (req, res) => {
-  res.send("something went wrong..");
+  res.send("Something went wrong.");
 });
 
 app.get("/protected", isLoggedIn, (req, res) => {
@@ -69,21 +101,11 @@ app.get("/protected", isLoggedIn, (req, res) => {
 });
 
 app.get("/logout", (req, res) => {
-  req.logout(function (err) {
+  req.logout((err) => {
     if (err) {
       return next(err);
     }
-    if (req.session) {
-      req.session.destroy(function (err) {
-        if (err) {
-          console.log(err);
-          return next(err);
-        }
-        res.send("You have been logged out.");
-      });
-    } else {
-      res.send("You have been logged out.");
-    }
+    res.send("You have been logged out.");
   });
 });
 
@@ -93,9 +115,7 @@ app.use((req, res, next) => {
 
 app.use((err, req, res, next) => {
   console.error(err.stack);
-  const status = err.status || 500;
-  const message = err.message || "Internal Server Error";
-  res.status(status).json({ error: message });
+  res.status(500).json({ error: "Internal Server Error" });
 });
 
 module.exports = app;
